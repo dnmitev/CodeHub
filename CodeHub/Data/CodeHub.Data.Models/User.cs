@@ -9,6 +9,7 @@
     using System.Threading.Tasks;
     
     using CodeHub.Data.Common.Models;
+    using System.ComponentModel.DataAnnotations;
 
     public class User : IdentityUser, IAuditInfo, IDeletableEntity
     {
@@ -17,6 +18,19 @@
             // Prevent UserManager.CreateAsyns cause an exception
             this.CreatedOn = DateTime.Now;
         }
+
+        [MinLength(2)]
+        [MaxLength(20)]
+        public string FirstName { get; set; }
+
+        [MinLength(2)]
+        [MaxLength(20)]
+        public string LastName { get; set; }
+
+        public string Avatar { get; set; }
+
+        [Range(0, int.MaxValue)]
+        public int Points { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {

@@ -191,7 +191,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -273,6 +272,28 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CodeHub.Common\CodeHub.Common.csproj">
+      <Project>{fae165a9-cd5b-465b-8940-0b9c139a004a}</Project>
+      <Name>CodeHub.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\CodeHub.Data.Common\CodeHub.Data.Common.csproj">
+      <Project>{0e5cf07d-f133-4c42-a524-03147aca633f}</Project>
+      <Name>CodeHub.Data.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\CodeHub.Data.Models\CodeHub.Data.Models.csproj">
+      <Project>{e80a1b97-2300-4a7b-a4d1-b0e3f18aa31f}</Project>
+      <Name>CodeHub.Data.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\CodeHub.Data\CodeHub.Data.csproj">
+      <Project>{5baa4ba9-9818-4705-9422-89b6d107f2d5}</Project>
+      <Name>CodeHub.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeHub.Web.Infrastructure\CodeHub.Web.Infrastructure.csproj">
+      <Project>{9e692179-5ae7-40f8-9e44-4393cc01b0c4}</Project>
+      <Name>CodeHub.Web.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

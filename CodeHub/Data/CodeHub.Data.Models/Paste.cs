@@ -17,6 +17,7 @@
         public Guid Id { get; set; }
 
         [MinLength(5)]
+        [MaxLength(50)]
         public string Title { get; set; }
 
         [MinLength(10)]

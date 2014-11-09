@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comment.cs" />
     <Compile Include="Paste.cs" />
     <Compile Include="Repo.cs" />
     <Compile Include="Syntax.cs" />

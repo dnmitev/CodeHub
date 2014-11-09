@@ -1,9 +1,11 @@
 namespace CodeHub.Data.Migrations
 {
     using System;
-    using System.Data.Entity;
+    using System.Collections.Generic;
     using System.Data.Entity.Migrations;
     using System.Linq;
+
+    using CodeHub.Data.Models;
 
     internal sealed class Configuration : DbMigrationsConfiguration<CodeHubDbContext>
     {
@@ -15,7 +17,23 @@ namespace CodeHub.Data.Migrations
 
         protected override void Seed(CodeHubDbContext context)
         {
-          // TODO: seed initial data
+            if (!context.Syntaxes.Any())
+            {
+                var syntaxes = new List<Syntax>()
+                {
+                    new Syntax {Name="C#"},
+                    new Syntax {Name="JavaScript"},
+                    new Syntax {Name="HTML"},
+                    new Syntax {Name="CSS"},
+                    new Syntax {Name="SQL"},
+                    new Syntax {Name="C++"}
+                };
+
+                foreach (var syntax in syntaxes)
+                {
+                    context.Syntaxes.Add(syntax);
+                }
+            }
         }
     }
 }

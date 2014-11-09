@@ -18,8 +18,14 @@
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<CodeHubDbContext, Configuration>());
         }
 
-        // TODO: List IDbSets of the models
-        // public IDbSet<Tag> Tags { get; set; }
+        public IDbSet<Paste> Pastes { get; set; }
+
+        public IDbSet<Repo> Repos { get; set; }
+
+        public IDbSet<Syntax> Syntaxes { get; set; }
+
+        public IDbSet<Comment> Comments { get; set; }
+
 
         public static CodeHubDbContext Create()
         {

@@ -2,19 +2,28 @@
 {
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
-  
+
     using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Security.Claims;
     using System.Threading.Tasks;
-    
+
     using CodeHub.Data.Common.Models;
-    using System.ComponentModel.DataAnnotations;
 
     public class User : IdentityUser, IAuditInfo, IDeletableEntity
     {
+        private ICollection<Paste> pastes;
+        private ICollection<Repo> repos;
+        private ICollection<Comment> comments;
+        
         public User()
         {
+            this.Pastes = new HashSet<Paste>();
+            this.Repos = new HashSet<Repo>();
+            this.Comments = new HashSet<Comment>();
+
             // Prevent UserManager.CreateAsyns cause an exception
             this.CreatedOn = DateTime.Now;
         }
@@ -50,5 +59,44 @@
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
+
+        public virtual ICollection<Paste> Pastes
+        {
+            get
+            {
+                return this.pastes;
+            }
+
+            set
+            {
+                this.pastes = value;
+            }
+        }
+
+        public virtual ICollection<Comment> Comments
+        {
+            get
+            {
+                return this.comments;
+            }
+
+            set
+            {
+                this.comments = value;
+            }
+        }
+
+        public virtual ICollection<Repo> Repos
+        {
+            get
+            {
+                return this.repos;
+            }
+
+            set
+            {
+                this.repos = value;
+            }
+        }
     }
 }

@@ -22,3 +22,7 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.custom-styled-font{
+    font-family: 'Freestyle Script';
+}

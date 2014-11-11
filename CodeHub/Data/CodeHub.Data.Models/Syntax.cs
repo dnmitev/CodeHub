@@ -23,6 +23,9 @@
         [MaxLength(20)]
         public string Name { get; set; }
 
+        [Required]
+        public string SyntaxMode { get; set; }
+
         public DateTime CreatedOn { get; set; }
 
         public bool PreserveCreatedOn { get; set; }

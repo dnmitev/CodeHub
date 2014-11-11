@@ -4,7 +4,6 @@ namespace CodeHub.Data.Migrations
     using System.Collections.Generic;
     using System.Data.Entity.Migrations;
     using System.Linq;
-
     using CodeHub.Data.Models;
 
     internal sealed class Configuration : DbMigrationsConfiguration<CodeHubDbContext>
@@ -21,12 +20,16 @@ namespace CodeHub.Data.Migrations
             {
                 var syntaxes = new List<Syntax>()
                 {
-                    new Syntax {Name="C#"},
-                    new Syntax {Name="JavaScript"},
-                    new Syntax {Name="HTML"},
-                    new Syntax {Name="CSS"},
-                    new Syntax {Name="SQL"},
-                    new Syntax {Name="C++"}
+                    new Syntax { Name = "C#", SyntaxMode = "text/x-csharp" },
+                    new Syntax { Name = "C++", SyntaxMode = "text/x-c++src" },
+                    new Syntax { Name = "JavaScript", SyntaxMode = "text/javascript" },
+                    new Syntax { Name = "HTML", SyntaxMode = "text/html" },
+                    new Syntax { Name = "CSS", SyntaxMode = "text/css" },
+                    new Syntax { Name = "SQL", SyntaxMode = "text/x-mssql" },
+                    new Syntax { Name = "CoffeeScript", SyntaxMode = "text/x-coffeescript" },
+                    new Syntax { Name = "Java", SyntaxMode = "text/x-java" },
+                    new Syntax { Name = "Ruby", SyntaxMode = "text/x-ruby" },
+                    new Syntax { Name = "TypeScript", SyntaxMode = "text/typescript" }
                 };
 
                 foreach (var syntax in syntaxes)

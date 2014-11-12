@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     using System.Linq;
@@ -11,7 +12,6 @@
     using CodeHub.Common.Extensions;
     using CodeHub.Data.Common.Repositories;
     using CodeHub.Data.Contracts;
-    using System.ComponentModel.DataAnnotations.Schema;
 
     public class GenericRepository<T> : IRepository<T> where T : class
     {

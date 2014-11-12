@@ -52,7 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeHubData.cs" />
     <Compile Include="CodeHubDbContext.cs" />
+    <Compile Include="Contracts\ICodeHubData.cs" />
     <Compile Include="Contracts\ICodeHubDbContext.cs" />
     <Compile Include="Contracts\IDeletableEntityRepository.cs" />
     <Compile Include="Contracts\IRepository.cs" />

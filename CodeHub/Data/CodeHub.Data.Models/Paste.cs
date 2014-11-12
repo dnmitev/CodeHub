@@ -2,11 +2,10 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
     
     using CodeHub.Data.Common.Models;
 
-    public class Paste : IAuditInfo, IDeletableEntity
+    public class Paste : DeletableEntity
     {
         public Paste()
         {
@@ -17,7 +16,7 @@
         public Guid Id { get; set; }
 
         [MinLength(5)]
-        [MaxLength(50)]
+        [MaxLength(100)]
         public string Title { get; set; }
 
         [MinLength(10)]
@@ -36,18 +35,7 @@
 
         public virtual User Author { get; set; }
 
-        public DateTime CreatedOn { get; set; }
-
-        public bool PreserveCreatedOn { get; set; }
-
-        public DateTime? ModifiedOn { get; set; }
-
-        [Index]
-        public bool IsDeleted { get; set; }
-
         public bool HasBug { get; set; }
-
-        public DateTime? DeletedOn { get; set; }
 
         public string RepoId { get; set; }
 

@@ -7,7 +7,7 @@
 
     using CodeHub.Data.Common.Models;
 
-    public class Repo : IAuditInfo, IDeletableEntity
+    public class Repo : DeletableEntity
     {
         private ICollection<Paste> pastes;
 
@@ -38,16 +38,6 @@
         public virtual User Owner { get; set; }
 
         public bool IsPrivate { get; set; }
-
-        public DateTime CreatedOn { get; set; }
-
-        public bool PreserveCreatedOn { get; set; }
-
-        public DateTime? ModifiedOn { get; set; }
-
-        public bool IsDeleted { get; set; }
-
-        public DateTime? DeletedOn { get; set; }
 
         [Range(0,int.MaxValue)]
         public int Rating { get; set; }

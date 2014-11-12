@@ -4,6 +4,7 @@ namespace CodeHub.Data.Migrations
     using System.Collections.Generic;
     using System.Data.Entity.Migrations;
     using System.Linq;
+
     using CodeHub.Data.Models;
 
     internal sealed class Configuration : DbMigrationsConfiguration<CodeHubDbContext>
@@ -21,19 +22,31 @@ namespace CodeHub.Data.Migrations
                 SeedSyntaxes(context);
             }
 
-            SeedPaste(context);
+            if (!context.Pastes.Any())
+            {
+                SeedPaste(context);
+            }
         }
 
         private void SeedPaste(CodeHubDbContext context)
         {
-            if (!context.Pastes.Any())
+            var user = new User { UserName = "bai dan4o", Email = "baidan4o@abv.bg" };
+            var pastes = GetListOfPastes(user);
+            foreach (var paste in pastes)
             {
-                var paste =
-                    new Paste
-                    {
-                        Author = new User { UserName = "bai dan4o", Email = "baidan4o@abv.bg" },
-                        Content =
-                            @"using System;
+                context.Pastes.Add(paste);
+            }
+        }
+
+        private IList<Paste> GetListOfPastes(User user)
+        {
+            var pastes = new List<Paste>
+            {
+                new Paste
+                {
+                    Author = user,
+                    Content =
+@"using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -67,7 +80,7 @@ namespace AngryFemaleGPS
                 }
             }
          
-            //chech whether the odd digits' sum is bigger than the even's or they are equal
+            //check whether the odd digits' sum is bigger than the even's or they are equal
             if (evenSum > oddSum)
             {
                 Console.WriteLine(""right {0}"",evenSum);
@@ -83,12 +96,66 @@ namespace AngryFemaleGPS
         }
     }
 }",
-                        Title = "Angry Femele GPS",
-                        Syntax = new Syntax { Name = "C#", SyntaxMode = "text/x-csharp" }
-                    };
+                    Title = "Angry Femele GPS",
+                    Syntax = new Syntax { Name = "C#", SyntaxMode = "text/x-csharp" }
+                },
+                new Paste
+                {
+                    Author = user,
+                    Content =
+@"(function () {
+    'use strict';
 
-                context.Pastes.Add(paste);
+    $.fn.dropdown = function () {
+        var $this = this;
+
+        $this.hide();
+
+        var $dropdownListCointainer = $('<div />').addClass('dropdown-list-container'),
+            $listContainer = $('<ul />').addClass('dropdown-list-options'),
+            $selectOptions = $('option');
+
+        for (var i = 0, len = $selectOptions.length; i < len; i += 1) {
+            var currentOptionValue = $selectOptions[i].value,
+                currentOptionHtml = $selectOptions[i].innerHTML,
+                $listItem = $('<li />')
+                                .addClass('dropdown-list-option')
+                                .html(currentOptionHtml)
+                                .data('data-value', currentOptionValue)
+                                .on('click', onListItemClick);
+
+            $listContainer.append($listItem);
+        }
+
+        $dropdownListCointainer.append($listContainer);
+
+        $this.after($dropdownListCointainer);
+
+        function onListItemClick() {
+            var self = this,
+                dataValue = $(self).data('data-value'),
+                selector = 'option[value=' + dataValue + ']';
+
+            if ($('#dropdown').find(selector).attr('selected') === 'selected') {
+                $('#dropdown').find(selector).removeAttr('selected', '');
+                $(this).removeClass('dropdown-styled');
+            } else {
+                $('#dropdown').find(selector).attr('selected', 'selected');
+                $(this).addClass('dropdown-styled');
             }
+        }
+
+        return $this;
+    };
+
+    $('#dropdown').dropdown();
+}());",
+                    Title = "jQuery plugin",
+                    Syntax = new Syntax { Name = "JavaScript", SyntaxMode = "text/javascript" }
+                }
+            };
+
+            return pastes;
         }
 
         private void SeedSyntaxes(CodeHubDbContext context)
@@ -96,7 +163,6 @@ namespace AngryFemaleGPS
             var syntaxes = new List<Syntax>()
             {
                 new Syntax { Name = "C++", SyntaxMode = "text/x-c++src" },
-                new Syntax { Name = "JavaScript", SyntaxMode = "text/javascript" },
                 new Syntax { Name = "HTML", SyntaxMode = "text/html" },
                 new Syntax { Name = "CSS", SyntaxMode = "text/css" },
                 new Syntax { Name = "SQL", SyntaxMode = "text/x-mssql" },

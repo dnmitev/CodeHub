@@ -5,14 +5,22 @@ using System.Web;
 using System.Web.Mvc;
 using CodeHub.Data.Models;
 using CodeHub.Data;
+using CodeHub.Data.Contracts;
 
 namespace CodeHub.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
+        public HomeController(ICodeHubData data)
+            : base(data)
+        {
+
+        }
+
         public ActionResult Index()
         {
-            return View();
+            var paste = this.Data.Pastes.All().FirstOrDefault();
+            return View(paste);
         }
 
         public ActionResult About()

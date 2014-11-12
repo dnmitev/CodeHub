@@ -3,11 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    
+
     using CodeHub.Data.Common.Models;
 
-    public class Syntax : IAuditInfo, IDeletableEntity
+    public class Syntax : DeletableEntity
     {
         private ICollection<Paste> pastes;
 
@@ -25,17 +24,6 @@
 
         [Required]
         public string SyntaxMode { get; set; }
-
-        public DateTime CreatedOn { get; set; }
-
-        public bool PreserveCreatedOn { get; set; }
-
-        public DateTime? ModifiedOn { get; set; }
-
-        [Index]
-        public bool IsDeleted { get; set; }
-
-        public DateTime? DeletedOn { get; set; }
 
         public virtual ICollection<Paste> Pastes
         {

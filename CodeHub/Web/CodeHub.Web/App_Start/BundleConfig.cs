@@ -13,8 +13,6 @@ namespace CodeHub.Web
             RegisterScriptBundles(bundles);
             RegisterStyleBundles(bundles);
 
-            // Set EnableOptimizations to false for debugging. For more information,
-            // visit http://go.microsoft.com/fwlink/?LinkId=301862
             // TODO: Set to true in production
             BundleTable.EnableOptimizations = false;
         }
@@ -22,8 +20,8 @@ namespace CodeHub.Web
         private static void RegisterStyleBundles(BundleCollection bundles)
         {
             bundles.Add(new StyleBundle("~/Content/codemirror").Include(
-                "~/Content/codemirror-3.01/codemirror.css",
-                "~/Content/codemirror-3.0/theme/vibrant-ink.css"));
+                "~/Content/codemirror/codemirror.css",
+                "~/Content/codemirror/vibrant-ink.css"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.darkly.css"));
@@ -44,15 +42,15 @@ namespace CodeHub.Web
                 "~/Scripts/kendo/kendo.aspnetmvc.min.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/codemirror").Include(
-                "~/Scripts/codemirror-2.37/lib/codemirror.js",
-                "~/Scripts/codemirror-2.37/mode/clike/clike.js",
-                "~/Scripts/codemirror-2.37/mode/coffeescript/coffeescript.js",
-                "~/Scripts/codemirror-2.37/mode/css/css.js",
-                "~/Scripts/codemirror-2.37/mode/htmlembedded/htmlembedded.js",
-                "~/Scripts/codemirror-2.37/mode/htmlmixed/htmlmixed.js",
-                "~/Scripts/codemirror-2.37/mode/javascript/javascript.js",
-                "~/Scripts/codemirror-2.37/mode/ruby/ruby.js",
-                "~/Scripts/codemirror-2.37/mode/sql/sql.js"));
+                "~/Scripts/codemirror/codemirror.js",
+                "~/Scripts/codemirror/mode/clike/clike.js",
+                "~/Scripts/codemirror/mode/coffeescript/coffeescript.js",
+                "~/Scripts/codemirror/mode/css/css.js",
+                "~/Scripts/codemirror/mode/htmlembedded/htmlembedded.js",
+                "~/Scripts/codemirror/mode/htmlmixed/htmlmixed.js",
+                "~/Scripts/codemirror/mode/javascript/javascript.js",
+                "~/Scripts/codemirror/mode/ruby/ruby.js",
+                "~/Scripts/codemirror/mode/sql/sql.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                 "~/Scripts/kendo/jquery.min.js"));

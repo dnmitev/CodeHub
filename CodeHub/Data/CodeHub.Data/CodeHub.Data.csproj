@@ -53,14 +53,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeHubDbContext.cs" />
+    <Compile Include="Contracts\ICodeHubDbContext.cs" />
+    <Compile Include="Contracts\IDeletableEntityRepository.cs" />
+    <Compile Include="Contracts\IRepository.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\DeletableEntityRepository.cs" />
+    <Compile Include="Repositories\GenericRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\CodeHub.Common\CodeHub.Common.csproj">
+      <Project>{fae165a9-cd5b-465b-8940-0b9c139a004a}</Project>
+      <Name>CodeHub.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CodeHub.Data.Common\CodeHub.Data.Common.csproj">
       <Project>{0e5cf07d-f133-4c42-a524-03147aca633f}</Project>
       <Name>CodeHub.Data.Common</Name>
@@ -70,6 +79,7 @@
       <Name>CodeHub.Data.Models</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

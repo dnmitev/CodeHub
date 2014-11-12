@@ -6,11 +6,12 @@
     using System.Data.Entity;
     using System.Linq;
 
+    using CodeHub.Data.Contracts;
     using CodeHub.Data.Common.Models;
     using CodeHub.Data.Migrations;
     using CodeHub.Data.Models;
 
-    public class CodeHubDbContext : IdentityDbContext<User>
+    public class CodeHubDbContext : IdentityDbContext<User>, ICodeHubDbContext
     {
         public CodeHubDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -26,10 +27,22 @@
 
         public IDbSet<Comment> Comments { get; set; }
 
+        public DbContext DbContext
+        {
+            get
+            {
+                return this;
+            }
+        }
 
         public static CodeHubDbContext Create()
         {
             return new CodeHubDbContext();
+        }
+
+        public new IDbSet<T> Set<T>() where T : class
+        {
+            return base.Set<T>();
         }
 
         public override int SaveChanges()
@@ -37,6 +50,11 @@
             this.ApplyAuditInfoRules();
             this.ApplyDeletableEntityRules();
             return base.SaveChanges();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
         }
 
         private void ApplyAuditInfoRules()

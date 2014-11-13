@@ -1,28 +1,35 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using CodeHub.Web.ViewModels.Account;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using CodeHub.Data.Models;
-
-namespace CodeHub.Web.Controllers
+﻿namespace CodeHub.Web.Controllers
 {
+    using System;
+    using System.Globalization;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+    using System.Web;
+    using System.Web.Mvc;
+    using CodeHub.Web.ViewModels.Account;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.Owin;
+    using Microsoft.Owin.Security;
+    using CodeHub.Data.Models;
+    using System.Drawing;
+    using System.IO;
+    using CodeHub.Data.Contracts;
+
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
+        private const string DefaultFileUploadFolder = "imgs";
+
         private ApplicationUserManager _userManager;
 
-        public AccountController()
+        public AccountController(ICodeHubData data)
+            : base(data)
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ICodeHubData data)
+            : this(data)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -57,7 +64,10 @@ namespace CodeHub.Web.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set { _signInManager = value; }
+            private set
+            {
+                _signInManager = value;
+            }
         }
 
         //
@@ -124,7 +134,7 @@ namespace CodeHub.Web.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -151,7 +161,7 @@ namespace CodeHub.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, HttpPostedFileBase avatar)
         {
             if (ModelState.IsValid)
             {
@@ -159,8 +169,36 @@ namespace CodeHub.Web.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    if (avatar != null)
+                    {
+                        string[] fileData = Path.GetFileName(avatar.FileName).Split(new char[] { '.' });
+                        string fileExtension = fileData[fileData.Length - 1];
+
+                        string uniqueFileName = string.Format("{0}.{1}", Guid.NewGuid(), fileExtension);
+
+                        string defaultPath = DefaultFileUploadFolder;
+                        bool defaultPathExists = Directory.Exists(Server.MapPath(defaultPath));
+                        if (!defaultPathExists)
+                        {
+                            Directory.CreateDirectory(Server.MapPath(string.Format("~/{0}", defaultPath)));
+                        }
+
+                        string subPath = user.UserName;
+                        bool subPathExists = Directory.Exists(Server.MapPath(subPath));
+                        if (!subPathExists)
+                        {
+                            Directory.CreateDirectory(Server.MapPath(string.Format("~/{0}/{1}", defaultPath, subPath)));
+                        }
+
+                        avatar.SaveAs(Server.MapPath(string.Format("~/{0}/{1}/{2}", defaultPath, subPath, uniqueFileName)));
+                        user.Avatar = string.Format("/{0}/{1}/{2}", defaultPath, subPath, uniqueFileName);
+                        this.Data.Users.Update(user);
+                        this.Data.SaveChanges();
+                    }
+
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -169,11 +207,17 @@ namespace CodeHub.Web.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
+
                 AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        private void HandleDirectories(out string subPath, out string defaultPath)
+        {
+            throw new NotImplementedException();
         }
 
         //
@@ -212,7 +256,6 @@ namespace CodeHub.Web.Controllers
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
                 }
-
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
                 // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
@@ -408,6 +451,7 @@ namespace CodeHub.Web.Controllers
         }
 
         #region Helpers
+
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -451,7 +495,9 @@ namespace CodeHub.Web.Controllers
             }
 
             public string LoginProvider { get; set; }
+
             public string RedirectUri { get; set; }
+
             public string UserId { get; set; }
 
             public override void ExecuteResult(ControllerContext context)
@@ -464,6 +510,7 @@ namespace CodeHub.Web.Controllers
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
         }
+
         #endregion
     }
 }

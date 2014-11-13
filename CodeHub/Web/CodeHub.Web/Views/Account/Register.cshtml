@@ -22,22 +22,20 @@
     @Html.FormGroupFor(m => m.FirstName)
     @Html.FormGroupFor(m => m.LastName)
     <div class="form-group">
-        @*<label for="AvatarImg" class="col-lg-2 control-label">Avatar</label>*@
-        @Html.LabelFor(m => m.Avatar, new { @class = "col-lg-2 control-label" })
+        <label for="AvatarImg" class="col-lg-2 control-label">Avatar</label>
         <div class="col-lg-10">
-            @*<input id="AvatarImg" name="Avatar" type="file" />*@
-            @Html.EditorFor(m => m.Avatar)
+            <input id="AvatarImg" name="Avatar" type="file" />
         </div>
     </div>
-    @Html.Submit(new { @class="btn btn-primary", @value="Register" })
-    @Html.ActionLink("Cancel", "Index", "Home",null, new {@class="btn btn-default" })
+    @Html.Submit(new { @class = "btn btn-primary", @value = "Register" })
+    @Html.ActionLink("Cancel", "Index", "Home", null, new { @class = "btn btn-default" })
 }
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/bootstrap-fileinput")
     <script>
-        $('input[type="file"]')[0].fileinput({
+        $('#AvatarImg').fileinput({
             showUpload: false,
             allowedFileExtensions: ["jpg", "gif", "png"],
             previewFileType: "image",

@@ -11,29 +11,30 @@
         Freedom of being open-sourced
     </p>
 </div>
+
 <div class="container">
     <textarea id="code">@Model.Content</textarea>
 </div>
-    @section scripts{
-        @Scripts.Render("~/Scripts/codemirror")
-        <script type="text/javascript">
-            $(function () {
-                var textEditor = document.getElementById("code");
-                var editor = new CodeMirror.fromTextArea(textEditor, {
-                    mode: "@Model.Syntax.SyntaxMode",
-                    lineNumbers: true,
-                    matchBrackets: true,
-                    theme: "vibrant-ink",
-                    showCursorWhenSelecting: true,
-                    undoDepth: 100,
-                    lineWrapping: true,
-                    readOnly: false,
-                    autofocus: false,
-                });
-                
-                console.log(textEditor);
-
-                editor.setSize('100%', '100%');
+@section scripts{
+    @Scripts.Render("~/Scripts/codemirror")
+    <script type="text/javascript">
+        $(function () {
+            var textEditor = document.getElementById("code");
+            var editor = new CodeMirror.fromTextArea(textEditor, {
+                mode: "@Model.Syntax.SyntaxMode",
+                lineNumbers: true,
+                matchBrackets: true,
+                theme: "vibrant-ink",
+                showCursorWhenSelecting: true,
+                undoDepth: 100,
+                lineWrapping: true,
+                readOnly: false,
+                autofocus: false,
             });
-        </script>
-    }
+
+            console.log(textEditor);
+
+            editor.setSize('100%', '100%');
+        });
+    </script>
+}

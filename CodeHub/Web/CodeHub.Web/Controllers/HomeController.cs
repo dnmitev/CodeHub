@@ -26,8 +26,8 @@ namespace CodeHub.Web.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-
-            return View();
+            var user = this.Data.Users.All().Where(u => u.Avatar != null).FirstOrDefault();
+            return View(user);
         }
 
         public ActionResult Contact()

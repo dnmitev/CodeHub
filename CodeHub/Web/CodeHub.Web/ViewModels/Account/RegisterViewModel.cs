@@ -3,7 +3,6 @@ namespace CodeHub.Web.ViewModels.Account
     using System.ComponentModel.DataAnnotations;
 
     using CodeHub.Web.Infrastructure.Filters;
-    using System.IO;
     using System.Web;
 
     public class RegisterViewModel
@@ -42,8 +41,7 @@ namespace CodeHub.Web.ViewModels.Account
         [Display(Name = "Last name")]
         public string LastName { get; set; }
 
-        [DataType(DataType.Upload)]
-        [Display(Name = "Avatar")]
-        public HttpPostedFileBase Avatar { get; set; }
+        [Display(Name = "Upload an avatar")]
+        public string Avatar { get; set; }
     }
 }

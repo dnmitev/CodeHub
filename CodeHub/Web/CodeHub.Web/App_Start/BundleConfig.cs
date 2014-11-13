@@ -19,6 +19,9 @@ namespace CodeHub.Web
 
         private static void RegisterStyleBundles(BundleCollection bundles)
         {
+            bundles.Add(new StyleBundle("~/Content/bootstrap-fileinput").Include(
+                "~/Content/bootstrap-fileinput/css/fileinput.min.css"));
+
             bundles.Add(new StyleBundle("~/Content/codemirror").Include(
                 "~/Content/codemirror/codemirror.css",
                 "~/Content/codemirror/vibrant-ink.css"));
@@ -51,6 +54,9 @@ namespace CodeHub.Web
                 "~/Scripts/codemirror/mode/javascript/javascript.js",
                 "~/Scripts/codemirror/mode/ruby/ruby.js",
                 "~/Scripts/codemirror/mode/sql/sql.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/bootstrap-fileinput").Include(
+                "~/Scripts/bootstrap-fileinput/fileinput.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                 "~/Scripts/kendo/jquery.min.js"));

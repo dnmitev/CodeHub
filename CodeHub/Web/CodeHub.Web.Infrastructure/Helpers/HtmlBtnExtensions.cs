@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Web.Mvc;
 
-    public static class HtmlExtensions
+    public static class HtmlBtnExtensions
     {
         public static MvcHtmlString Submit(this HtmlHelper helper, object htmlAttributes = null)
         {

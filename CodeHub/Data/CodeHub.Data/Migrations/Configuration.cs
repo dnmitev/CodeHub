@@ -4,15 +4,17 @@ namespace CodeHub.Data.Migrations
     using System.Collections.Generic;
     using System.Data.Entity.Migrations;
     using System.Linq;
-    using CodeHub.Data.Models;
-    using Microsoft.AspNet.Identity.EntityFramework;
-    using Microsoft.AspNet.Identity;
-    using CodeHub.Common;
     using System.IO;
     using System.Text;
     using System.Reflection;
+
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using Microsoft.AspNet.Identity;
+
+    using CodeHub.Common;
     using CodeHub.Common.RandomGenerator.Contracts;
     using CodeHub.Common.RandomGenerator;
+    using CodeHub.Data.Models;
 
     internal sealed class Configuration : DbMigrationsConfiguration<CodeHubDbContext>
     {

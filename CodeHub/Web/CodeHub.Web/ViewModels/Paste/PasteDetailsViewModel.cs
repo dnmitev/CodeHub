@@ -37,6 +37,8 @@
 
         public string Author { get; set; }
 
+        [UIHint("CustomBug")]
+        [Display(Name = "I saw a bug")]
         public bool HasBug { get; set; }
 
         [UIHint("CustomDate")]

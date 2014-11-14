@@ -1104,6 +1104,7 @@
     <Content Include="Views\Shared\DisplayTemplates\CustomDate.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\SourceCode.cshtml" />
     <Content Include="Views\Pastes\_SourceCodePartial.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\CustomBug.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

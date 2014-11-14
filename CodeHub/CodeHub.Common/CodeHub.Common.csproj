@@ -76,6 +76,8 @@
     <Compile Include="FileUpload\IFileUploader.cs" />
     <Compile Include="GlobalConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RandomGenerator\Contracts\IRandomProvider.cs" />
+    <Compile Include="RandomGenerator\RandomProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

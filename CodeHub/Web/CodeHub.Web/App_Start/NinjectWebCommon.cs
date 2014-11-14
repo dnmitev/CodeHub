@@ -14,6 +14,8 @@ namespace CodeHub.Web.App_Start
     using CodeHub.Data;
     using CodeHub.Data.Contracts;
     using CodeHub.Common.FileUpload;
+    using CodeHub.Common.RandomGenerator.Contracts;
+    using CodeHub.Common.RandomGenerator;
 
     public static class NinjectWebCommon 
     {

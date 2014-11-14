@@ -1,0 +1,21 @@
+﻿@model  List<CodeHub.Web.ViewModels.HomePage.PasteHomePageViewModel>
+@{
+    var totalCount = Model.Count;
+}
+
+    @if (totalCount > 0)
+    {
+        for (int i = 0; i < totalCount; i++)
+        { 
+                    <a href="/Pastes/Details/@Model[i].Id" class="list-group-item">
+                        <h5 class="list-group-item-heading">@Model[i].Title</h5>
+                        <p class="list-group-item-text text-info">
+                            <small>Author: @Model[i].Author</small>
+                        </p>
+                    </a>
+        }
+    }
+    else
+    {
+        <p class="text-info">No pastes yet for this syntax</p>
+    }

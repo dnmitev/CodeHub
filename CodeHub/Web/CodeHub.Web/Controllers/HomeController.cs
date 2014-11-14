@@ -1,40 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using CodeHub.Data.Models;
-using CodeHub.Data;
-using CodeHub.Data.Contracts;
-
-namespace CodeHub.Web.Controllers
+﻿namespace CodeHub.Web.Controllers
 {
+    using System.Linq;
+    using System.Web.Mvc;
+
+    using AutoMapper.QueryableExtensions;
+    
+    using CodeHub.Data.Contracts;
+    using CodeHub.Web.ViewModels.HomePage;
+
     public class HomeController : BaseController
     {
         public HomeController(ICodeHubData data)
             : base(data)
         {
-
         }
 
         public ActionResult Index()
         {
-            var paste = this.Data.Pastes.All().FirstOrDefault();
-            return View(paste);
-        }
+            var syntaxes = this.Data.Syntaxes.All()
+                               .OrderBy(s => s.Name)
+                               .Project()
+                               .To<SyntaxHomePageViewModel>()
+                               .ToList();
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-            var user = this.Data.Users.All().Where(u => u.Avatar != null).FirstOrDefault();
-            return View(user);
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            return View(syntaxes);
         }
     }
 }

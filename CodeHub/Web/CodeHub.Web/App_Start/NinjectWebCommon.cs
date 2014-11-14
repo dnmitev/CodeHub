@@ -13,6 +13,7 @@ namespace CodeHub.Web.App_Start
 
     using CodeHub.Data;
     using CodeHub.Data.Contracts;
+    using CodeHub.Common.FileUpload;
 
     public static class NinjectWebCommon 
     {
@@ -66,6 +67,8 @@ namespace CodeHub.Web.App_Start
         {
             kernel.Bind<ICodeHubDbContext>().To<CodeHubDbContext>();
             kernel.Bind<ICodeHubData>().To<CodeHubData>();
+
+            kernel.Bind<IFileUploader>().To<FileUploadHelper>();
         }        
     }
 }

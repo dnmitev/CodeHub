@@ -1,14 +1,17 @@
 ﻿namespace CodeHub.Web.Areas.Administration.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web;
     using System.Web.Mvc;
 
-    [Authorize(Roles="Admin")]
-    public abstract class AdminBaseController : Controller
+    using CodeHub.Common;
+    using CodeHub.Data.Contracts;
+    using CodeHub.Web.Controllers;
+
+    [Authorize(Roles = GlobalConstants.AdminRole)]
+    public abstract class AdminBaseController : BaseController
     {
-        // TODO: Give Data abstraction to the admin area controllers
+        public AdminBaseController(ICodeHubData data)
+            : base(data)
+        {
+        }
     }
 }

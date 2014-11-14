@@ -1,13 +1,15 @@
 ﻿namespace CodeHub.Data.Models
 {
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
-
-    using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.Security.Claims;
     using System.Threading.Tasks;
+    
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+
+    using CodeHub.Common;
 
     public class User : IdentityUser
     {
@@ -30,9 +32,11 @@
         [MaxLength(20)]
         public string LastName { get; set; }
 
+        [DefaultValue(GlobalConstants.DefaultUserAvatar)]
         public string Avatar { get; set; }
 
         [Range(0, int.MaxValue)]
+        [DefaultValue(100)]
         public int Points { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)

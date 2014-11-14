@@ -22,6 +22,9 @@
         [MinLength(10)]
         public string Content { get; set; }
 
+        [MinLength(50)]
+        public string Description { get; set; }
+
         public int SyntaxId { get; set; }
 
         public virtual Syntax Syntax { get; set; }

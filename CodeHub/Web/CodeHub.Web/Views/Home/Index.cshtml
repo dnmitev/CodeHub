@@ -6,10 +6,15 @@
     @Styles.Render("~/Content/codemirror")
 }
 <div class="jumbotron">
-    <h1 class="custom-styled-font">Welcome to CodeHub</h1>
-    <p class="lead">
-        Freedom of being open-sourced
-    </p>
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="custom-styled-font">Welcome to CodeHub</h1>
+            <p class="lead">
+                Freedom of being open-sourced
+            </p>
+        </div>
+        @Html.Partial("_CodeHubMindMapPartial")
+    </div>
 </div>
 
 <div class="container">

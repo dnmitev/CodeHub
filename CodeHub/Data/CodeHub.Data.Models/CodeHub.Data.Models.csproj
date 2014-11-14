@@ -64,6 +64,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\CodeHub.Common\CodeHub.Common.csproj">
+      <Project>{fae165a9-cd5b-465b-8940-0b9c139a004a}</Project>
+      <Name>CodeHub.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CodeHub.Data.Common\CodeHub.Data.Common.csproj">
       <Project>{0e5cf07d-f133-4c42-a524-03147aca633f}</Project>
       <Name>CodeHub.Data.Common</Name>

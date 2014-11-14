@@ -1,20 +1,19 @@
 ﻿namespace CodeHub.Web.Controllers
 {
-    using System;
-    using System.Globalization;
-    using System.Linq;
-    using System.Security.Claims;
-    using System.Threading.Tasks;
-    using System.Web;
-    using System.Web.Mvc;
-    using CodeHub.Web.ViewModels.Account;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin.Security;
-    using CodeHub.Data.Models;
-    using System.Drawing;
-    using System.IO;
+   
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Web;
+    using System.Web.Mvc;
+    
+    using CodeHub.Common.FileUpload;
     using CodeHub.Data.Contracts;
+    using CodeHub.Data.Models;
+    using CodeHub.Web.ViewModels.Account;
 
     [Authorize]
     public class AccountController : BaseController
@@ -22,14 +21,18 @@
         private const string DefaultFileUploadFolder = "imgs";
 
         private ApplicationUserManager _userManager;
+        private ApplicationSignInManager _signInManager;
 
-        public AccountController(ICodeHubData data)
+        private IFileUploader fileUploader;
+
+        public AccountController(ICodeHubData data, IFileUploader fileUploader)
             : base(data)
         {
+            this.fileUploader = fileUploader;
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ICodeHubData data)
-            : this(data)
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ICodeHubData data, IFileUploader fileUploader)
+            : this(data, fileUploader)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -41,6 +44,7 @@
             {
                 return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
+
             private set
             {
                 _userManager = value;
@@ -56,14 +60,13 @@
             return View();
         }
 
-        private ApplicationSignInManager _signInManager;
-
         public ApplicationSignInManager SignInManager
         {
             get
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
+
             private set
             {
                 _signInManager = value;
@@ -110,11 +113,13 @@
             {
                 return View("Error");
             }
+
             var user = await UserManager.FindByIdAsync(await SignInManager.GetVerifiedUserIdAsync());
             if (user != null)
             {
                 var code = await UserManager.GenerateTwoFactorTokenAsync(user.Id, provider);
             }
+
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
@@ -173,31 +178,11 @@
 
                     if (avatar != null)
                     {
-                        string[] fileData = Path.GetFileName(avatar.FileName).Split(new char[] { '.' });
-                        string fileExtension = fileData[fileData.Length - 1];
+                        user.Avatar = this.fileUploader.GetUploadedFilePath(avatar, DefaultFileUploadFolder, user.UserName);
 
-                        string uniqueFileName = string.Format("{0}.{1}", Guid.NewGuid(), fileExtension);
-
-                        string defaultPath = DefaultFileUploadFolder;
-                        bool defaultPathExists = Directory.Exists(Server.MapPath(defaultPath));
-                        if (!defaultPathExists)
-                        {
-                            Directory.CreateDirectory(Server.MapPath(string.Format("~/{0}", defaultPath)));
-                        }
-
-                        string subPath = user.UserName;
-                        bool subPathExists = Directory.Exists(Server.MapPath(subPath));
-                        if (!subPathExists)
-                        {
-                            Directory.CreateDirectory(Server.MapPath(string.Format("~/{0}/{1}", defaultPath, subPath)));
-                        }
-
-                        avatar.SaveAs(Server.MapPath(string.Format("~/{0}/{1}/{2}", defaultPath, subPath, uniqueFileName)));
-                        user.Avatar = string.Format("/{0}/{1}/{2}", defaultPath, subPath, uniqueFileName);
                         this.Data.Users.Update(user);
                         this.Data.SaveChanges();
                     }
-
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -215,11 +200,6 @@
             return View(model);
         }
 
-        private void HandleDirectories(out string subPath, out string defaultPath)
-        {
-            throw new NotImplementedException();
-        }
-
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
@@ -229,6 +209,7 @@
             {
                 return View("Error");
             }
+
             var result = await UserManager.ConfirmEmailAsync(userId, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
@@ -295,18 +276,22 @@
             {
                 return View(model);
             }
+
             var user = await UserManager.FindByNameAsync(model.Email);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
+
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
+
             AddErrors(result);
+
             return View();
         }
 
@@ -339,8 +324,10 @@
             {
                 return View("Error");
             }
+
             var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
             var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
+            
             return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
@@ -361,6 +348,7 @@
             {
                 return View("Error");
             }
+
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
         }
 
@@ -414,6 +402,7 @@
                 {
                     return View("ExternalLoginFailure");
                 }
+
                 var user = new User { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
@@ -425,10 +414,12 @@
                         return RedirectToLocal(returnUrl);
                     }
                 }
+
                 AddErrors(result);
             }
 
             ViewBag.ReturnUrl = returnUrl;
+
             return View(model);
         }
 
@@ -477,6 +468,7 @@
             {
                 return Redirect(returnUrl);
             }
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -507,6 +499,7 @@
                 {
                     properties.Dictionary[XsrfKey] = UserId;
                 }
+
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
         }

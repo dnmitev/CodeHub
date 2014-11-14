@@ -1101,6 +1101,9 @@
     <Content Include="Views\Shared\_CodeHubMindMapPartial.cshtml" />
     <Content Include="Views\Pastes\_GetLatestPastesPartial.cshtml" />
     <Content Include="Views\Pastes\Details.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\CustomDate.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SourceCode.cshtml" />
+    <Content Include="Views\Pastes\_SourceCodePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

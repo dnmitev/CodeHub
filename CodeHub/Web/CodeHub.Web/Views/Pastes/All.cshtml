@@ -1,5 +1,5 @@
 ﻿@using CodeHub.Web.ViewModels.Paste
-@model int?
+@model CodeHub.Web.ViewModels.Other.FilterViewModel
 
 @{
     ViewBag.Title = "Check out all pastes";
@@ -23,7 +23,12 @@
             .ServerOperation(true)
             .PageSize(10)
             .Read(read =>
-                read.Action("ReadPastes", "Pastes", new { syntax = Model }));
+                read.Action("ReadPastes", "Pastes", new
+                {
+                    syntax = Model.Syntax,
+                    onlyMine = Model.OnlyMine,
+                    withBugs = Model.WithBugs
+                }));
     }))
 
 <script id="all-pastes-template" type="text/x-kendo-tmpl">
@@ -42,9 +47,9 @@
         </div>
         <div class="col-md-1">
             #if(HasBug){#
-                <span class="label label-danger">Has Bug</span> 
+            <span class="label label-danger">Has Bug</span>
             #}else{#
-                <span class="label label-info">No Bugs</span>
+            <span class="label label-info">No Bugs</span>
             #}#
         </div>
         <div class="col-md-2">

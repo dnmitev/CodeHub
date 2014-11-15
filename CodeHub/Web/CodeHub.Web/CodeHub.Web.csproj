@@ -1124,6 +1124,7 @@
     <Content Include="Views\Shared\DisplayTemplates\Time.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Url.cshtml" />
     <Content Include="Views\Pastes\_FilterPartial.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\SyntaxesDropDown.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

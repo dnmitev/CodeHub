@@ -1,20 +1,23 @@
 ﻿namespace CodeHub.Web.Controllers
 {
-    using CodeHub.Data.Contracts;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web;
     using System.Web.Mvc;
+    
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
-    using CodeHub.Web.ViewModels.HomePage;
-    using CodeHub.Web.ViewModels.Paste;
-    using CodeHub.Data.Models;
-    using AutoMapper.QueryableExtensions;
-    using Kendo.Mvc.UI;
+    
     using Kendo.Mvc.Extensions;
+    using Kendo.Mvc.UI;
+
+    using CodeHub.Data.Contracts;
+    using CodeHub.Data.Models;
     using CodeHub.Web.Infrastructure.Populators;
+    using CodeHub.Web.ViewModels.HomePage;
+    using CodeHub.Web.ViewModels.Other;
+    using CodeHub.Web.ViewModels.Paste;
 
     public class PastesController : BaseController
     {
@@ -28,9 +31,20 @@
             this.populator = populator;
         }
 
-        public ActionResult All(int? syntax, bool? onlyMine)
+        public ActionResult All(FilterViewModel filter)
         {
-            return View(syntax);
+            // Filter options shouldn't be accessed through the query string of the URL
+            if (!Request.IsAuthenticated)
+            {
+                filter = new FilterViewModel()
+                {
+                    Syntax = null,
+                    OnlyMine = false,
+                    WithBugs = false
+                };
+            }
+
+            return View(filter);
         }
 
         [ValidateInput(false)]
@@ -60,13 +74,26 @@
         }
 
         [HttpPost]
-        public ActionResult ReadPastes([DataSourceRequest]DataSourceRequest request, int? syntax)
+        public ActionResult ReadPastes([DataSourceRequest]DataSourceRequest request, int? syntax, bool onlyMine, bool withBugs)
         {
             var pastesQuery = this.Data.Pastes.All();
 
             if (syntax != null)
             {
-                pastesQuery = pastesQuery.Where(p => p.SyntaxId == syntax);
+                pastesQuery = pastesQuery
+                    .Where(p => p.SyntaxId == syntax);
+            }
+
+            if (onlyMine)
+            {
+                pastesQuery = pastesQuery
+                    .Where(p => p.AuthorId == this.CurrentUser.Id);
+            }
+
+            if (withBugs)
+            {
+                pastesQuery = pastesQuery
+                    .Where(p => p.HasBug);
             }
 
             var pastes = pastesQuery

@@ -1,0 +1,12 @@
+﻿@model int?
+@(Html.Kendo()
+      .DropDownList()
+      .Name("Syntax")
+          .HtmlAttributes(new { style = "width: 100%" })
+      .DataTextField("Text")
+      .DataValueField("Value")
+      .OptionLabel("-- Choose Syntax --")
+      .DataSource(dataSource =>
+      {
+          dataSource.Read(read => read.Action("GetSyntaxes", "Syntaxes"));
+      }))

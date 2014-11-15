@@ -1,0 +1,59 @@
+﻿@using CodeHub.Web.ViewModels.Paste
+@model int?
+
+@{
+    ViewBag.Title = "Check out all pastes";
+}
+
+@section styles {
+    @Styles.Render("~/Content/kendo")
+}
+
+<h2>@ViewBag.Title</h2>
+
+@(Html.Kendo()
+    .ListView<BasePasteViewModel>()
+    .Name("pastes-list-view")
+    .TagName("div")
+    .Pageable()
+    .ClientTemplateId("all-pastes-template")
+    .DataSource(dataSource =>
+    {
+        dataSource
+            .ServerOperation(true)
+            .PageSize(10)
+            .Read(read =>
+                read.Action("ReadPastes", "Pastes", new { syntax = Model }));
+    }))
+
+<script id="all-pastes-template" type="text/x-kendo-tmpl">
+    <div class="row">
+        <div class="col-md-3 text-justify">
+            <a href="/Pastes/Details/#= Id #">#= Title #</a>
+        </div>
+        <div class="col-md-2">
+            #= Author #
+        </div>
+        <div class="col-md-1">
+            #= Syntax #
+        </div>
+        <div class="col-md-1">
+            #= Hits #
+        </div>
+        <div class="col-md-1">
+            #if(HasBug){#
+                <span class="label label-danger">Has Bug</span> 
+            #}else{#
+                <span class="label label-info">No Bugs</span>
+            #}#
+        </div>
+        <div class="col-md-2">
+            #= kendo.toString(CreatedOn, 'dd-MMM-yyyy @@ hh:mm') #
+        </div>
+    </div>
+    <br />
+</script>
+
+@section scripts {
+    @Scripts.Render("~/bundles/kendo")
+}

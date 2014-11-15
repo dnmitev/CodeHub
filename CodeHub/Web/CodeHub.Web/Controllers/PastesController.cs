@@ -12,6 +12,8 @@
     using CodeHub.Web.ViewModels.Paste;
     using CodeHub.Data.Models;
     using AutoMapper.QueryableExtensions;
+    using Kendo.Mvc.UI;
+    using Kendo.Mvc.Extensions;
 
     public class PastesController : BaseController
     {
@@ -20,6 +22,11 @@
         public PastesController(ICodeHubData data)
             : base(data)
         {
+        }
+
+        public ActionResult All(int? syntax)
+        {
+            return View(syntax);
         }
 
         [ValidateInput(false)]
@@ -46,6 +53,16 @@
             this.Data.SaveChanges();
 
             return View(paste);
+        }
+
+        public ActionResult ReadPastes([DataSourceRequest]DataSourceRequest request)
+        {
+            var pastes = this.Data.Pastes
+                .All()
+                .Project()
+                .To<BasePasteViewModel>();
+
+            return Json(pastes.ToDataSourceResult(request));
         }
 
         [ChildActionOnly]

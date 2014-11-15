@@ -1,9 +1,9 @@
 ﻿namespace CodeHub.Web.ViewModels.HomePage
 {
     using System.ComponentModel.DataAnnotations;
-    
+
     using AutoMapper;
-    
+
     using CodeHub.Data.Models;
     using CodeHub.Web.Infrastructure.Mapping;
 

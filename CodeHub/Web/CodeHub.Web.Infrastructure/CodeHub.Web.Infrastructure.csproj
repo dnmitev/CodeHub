@@ -75,18 +75,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Caching\ICacheService.cs" />
+    <Compile Include="Caching\InMemoryCache.cs" />
     <Compile Include="Filters\UserNameAllowedSymbolsAttribute.cs" />
     <Compile Include="Helpers\FormGroupExtensions.cs" />
     <Compile Include="Helpers\HtmlBtnExtensions.cs" />
     <Compile Include="Mapping\AutoMapperConfig.cs" />
     <Compile Include="Mapping\IHaveCustomMappings.cs" />
     <Compile Include="Mapping\IMapFrom.cs" />
+    <Compile Include="Populators\DropDownListPopulator.cs" />
+    <Compile Include="Populators\IDropDownListPopulator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\CodeHub.Data.Common\CodeHub.Data.Common.csproj">
+      <Project>{0e5cf07d-f133-4c42-a524-03147aca633f}</Project>
+      <Name>CodeHub.Data.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\CodeHub.Data.Models\CodeHub.Data.Models.csproj">
+      <Project>{e80a1b97-2300-4a7b-a4d1-b0e3f18aa31f}</Project>
+      <Name>CodeHub.Data.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\CodeHub.Data\CodeHub.Data.csproj">
+      <Project>{5baa4ba9-9818-4705-9422-89b6d107f2d5}</Project>
+      <Name>CodeHub.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

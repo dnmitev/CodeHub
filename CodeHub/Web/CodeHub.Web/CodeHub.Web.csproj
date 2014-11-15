@@ -214,6 +214,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PastesController.cs" />
+    <Compile Include="Controllers\SyntaxesController.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -239,6 +240,7 @@
     <Compile Include="ViewModels\Manage\SetPasswordViewModel.cs" />
     <Compile Include="ViewModels\Manage\VerifyPhoneNumberViewModel.cs" />
     <Compile Include="ViewModels\HomePage\SyntaxHomePageViewModel.cs" />
+    <Compile Include="ViewModels\Other\FilterViewModel.cs" />
     <Compile Include="ViewModels\Paste\BasePasteViewModel.cs" />
     <Compile Include="ViewModels\Paste\PasteDetailsViewModel.cs" />
   </ItemGroup>
@@ -1121,12 +1123,14 @@
     <Content Include="Views\Shared\DisplayTemplates\String.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Time.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Url.cshtml" />
+    <Content Include="Views\Pastes\_FilterPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Administration\Models\" />
     <Folder Include="Scripts\codemirror\mode\rpm\changes\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\Syntaxes\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

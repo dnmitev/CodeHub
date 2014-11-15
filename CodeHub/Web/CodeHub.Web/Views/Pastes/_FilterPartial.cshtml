@@ -1,0 +1,35 @@
+﻿@model CodeHub.Web.ViewModels.Other.FilterViewModel
+@if (Request.IsAuthenticated)
+{
+<div class="container">
+<div class="row">
+    @using (Html.BeginForm("All", "Pastes", FormMethod.Get))
+    {
+        <div class="row">
+            @(Html.Kendo()
+                  .DropDownList()
+                  .Name("syntax")
+                  .HtmlAttributes(new { @class = "col-md-6" })
+                  .DataTextField("Text")
+                  .DataValueField("Value")
+                  .OptionLabel("-- Choose Syntax --")
+                  .DataSource(dataSource =>
+                  {
+                      dataSource.Read(read => read.Action("GetSyntaxes", "Syntaxes"));
+                  }))
+
+            <div class="col-md-2">
+                @Html.CheckBoxFor(m => m.OnlyMine)
+                @*<div class="checkbox">
+                    <label>
+                        <input type="hidden" name="onlyMine" value="false" />
+                        <input type="checkbox" name="onlyMine" value="true" /> Only mine
+                    </label>
+                </div>*@
+            </div>
+        </div>
+            @Html.Submit(new { @class = "btn btn-primary", value = "Filter" })
+    }
+</div>
+</div>
+}

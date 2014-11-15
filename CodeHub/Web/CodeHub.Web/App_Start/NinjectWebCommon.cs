@@ -16,6 +16,8 @@ namespace CodeHub.Web.App_Start
     using CodeHub.Common.FileUpload;
     using CodeHub.Common.RandomGenerator.Contracts;
     using CodeHub.Common.RandomGenerator;
+    using CodeHub.Web.Infrastructure.Populators;
+    using CodeHub.Web.Infrastructure.Caching;
 
     public static class NinjectWebCommon 
     {
@@ -71,6 +73,8 @@ namespace CodeHub.Web.App_Start
             kernel.Bind<ICodeHubData>().To<CodeHubData>();
 
             kernel.Bind<IFileUploader>().To<FileUploadHelper>();
+            kernel.Bind<ICacheService>().To<InMemoryCache>();
+            kernel.Bind<IDropDownListPopulator>().To<DropDownListPopulator>();
         }        
     }
 }

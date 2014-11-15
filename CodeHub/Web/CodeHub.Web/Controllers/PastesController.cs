@@ -14,17 +14,21 @@
     using AutoMapper.QueryableExtensions;
     using Kendo.Mvc.UI;
     using Kendo.Mvc.Extensions;
+    using CodeHub.Web.Infrastructure.Populators;
 
     public class PastesController : BaseController
     {
         private const int DefaultPastesCountBySyntax = 3;
 
-        public PastesController(ICodeHubData data)
+        private readonly IDropDownListPopulator populator;
+
+        public PastesController(ICodeHubData data, IDropDownListPopulator populator)
             : base(data)
         {
+            this.populator = populator;
         }
 
-        public ActionResult All(int? syntax)
+        public ActionResult All(int? syntax, bool? onlyMine)
         {
             return View(syntax);
         }
@@ -55,12 +59,19 @@
             return View(paste);
         }
 
-        public ActionResult ReadPastes([DataSourceRequest]DataSourceRequest request)
+        [HttpPost]
+        public ActionResult ReadPastes([DataSourceRequest]DataSourceRequest request, int? syntax)
         {
-            var pastes = this.Data.Pastes
-                .All()
-                .Project()
-                .To<BasePasteViewModel>();
+            var pastesQuery = this.Data.Pastes.All();
+
+            if (syntax != null)
+            {
+                pastesQuery = pastesQuery.Where(p => p.SyntaxId == syntax);
+            }
+
+            var pastes = pastesQuery
+                                    .Project()
+                                    .To<BasePasteViewModel>();
 
             return Json(pastes.ToDataSourceResult(request));
         }

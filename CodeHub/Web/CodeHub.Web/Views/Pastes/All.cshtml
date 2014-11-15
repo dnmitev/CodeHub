@@ -10,7 +10,7 @@
 }
 
 <h2>@ViewBag.Title</h2>
-
+@Html.Partial("_FilterPartial")
 @(Html.Kendo()
     .ListView<BasePasteViewModel>()
     .Name("pastes-list-view")

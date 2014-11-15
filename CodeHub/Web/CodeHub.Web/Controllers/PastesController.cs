@@ -1,36 +1,35 @@
 ﻿namespace CodeHub.Web.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Web;
     using System.Web.Mvc;
-    
+
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     
     using Kendo.Mvc.Extensions;
     using Kendo.Mvc.UI;
-
+    
     using CodeHub.Data.Contracts;
-    using CodeHub.Data.Models;
     using CodeHub.Web.Infrastructure.Populators;
     using CodeHub.Web.ViewModels.HomePage;
     using CodeHub.Web.ViewModels.Other;
     using CodeHub.Web.ViewModels.Paste;
+    using CodeHub.Data.Models;
 
     public class PastesController : BaseController
     {
         private const int DefaultPastesCountBySyntax = 3;
+        private const int DefaultAdditionalPointsPerPaste = 10;
 
         private readonly IDropDownListPopulator populator;
 
-        public PastesController(ICodeHubData data, IDropDownListPopulator populator)
-            : base(data)
+        public PastesController(ICodeHubData data, IDropDownListPopulator populator) : base(data)
         {
             this.populator = populator;
         }
 
+        [HttpGet]
         public ActionResult All(FilterViewModel filter)
         {
             // Filter options shouldn't be accessed through the query string of the URL
@@ -47,7 +46,7 @@
             return View(filter);
         }
 
-        [ValidateInput(false)]
+        [HttpGet]
         public ActionResult Details(string id)
         {
             if (id == null)
@@ -74,26 +73,27 @@
         }
 
         [HttpPost]
-        public ActionResult ReadPastes([DataSourceRequest]DataSourceRequest request, int? syntax, bool onlyMine, bool withBugs)
+        public ActionResult ReadPastes([DataSourceRequest]
+                                       DataSourceRequest request, int? syntax, bool onlyMine, bool withBugs)
         {
             var pastesQuery = this.Data.Pastes.All();
 
             if (syntax != null)
             {
                 pastesQuery = pastesQuery
-                    .Where(p => p.SyntaxId == syntax);
+                                         .Where(p => p.SyntaxId == syntax);
             }
 
             if (onlyMine)
             {
                 pastesQuery = pastesQuery
-                    .Where(p => p.AuthorId == this.CurrentUser.Id);
+                                         .Where(p => p.AuthorId == this.CurrentUser.Id);
             }
 
             if (withBugs)
             {
                 pastesQuery = pastesQuery
-                    .Where(p => p.HasBug);
+                                         .Where(p => p.HasBug);
             }
 
             var pastes = pastesQuery
@@ -101,6 +101,52 @@
                                     .To<BasePasteViewModel>();
 
             return Json(pastes.ToDataSourceResult(request));
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult Add()
+        {
+            var addPasteViewModel = GetSyntaxesForAddModel();
+
+            return View(addPasteViewModel);
+        }
+ 
+        private AddPasteViewModel GetSyntaxesForAddModel()
+        {
+            var addPasteViewModel = new AddPasteViewModel()
+            {
+                Syntaxes = this.populator.GetSyntaxes()
+            };
+
+            return addPasteViewModel;
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult Add(AddPasteViewModel paste)
+        {
+            if (paste != null && ModelState.IsValid)
+            {
+                var dbPaste = Mapper.DynamicMap<Paste>(paste);
+
+                dbPaste.AuthorId = this.CurrentUser.Id;
+
+                this.Data.Pastes.Add(dbPaste);
+                this.Data.SaveChanges();
+
+                // Each User receive points for a posted source code
+                this.CurrentUser.Points += DefaultAdditionalPointsPerPaste;
+                this.Data.Users.Update(this.CurrentUser);
+                this.Data.SaveChanges();
+
+                return RedirectToAction("All");
+            }
+
+            paste.Syntaxes = this.GetSyntaxesForAddModel().Syntaxes;
+
+            return View(paste);
         }
 
         [ChildActionOnly]

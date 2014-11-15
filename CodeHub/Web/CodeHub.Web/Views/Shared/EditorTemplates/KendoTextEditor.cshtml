@@ -1,0 +1,14 @@
+﻿@model string
+@(Html.Kendo().Editor()
+      .Name("Description")
+      .HtmlAttributes(new { style = "width: 100%;" })
+      .Value(Model)
+      .Encode(false)
+.ImageBrowser(imageBrowser => imageBrowser
+    .Image("~/Content/UserFiles/Images/{0}")
+        .Read("Read", "KendoImageBrowser")
+        .Create("Create", "KendoImageBrowser")
+        .Destroy("Destroy", "KendoImageBrowser")
+        .Upload("Upload", "KendoImageBrowser")
+        .Thumbnail("Thumbnail", "KendoImageBrowser"))
+)

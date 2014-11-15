@@ -1,0 +1,90 @@
+﻿@model CodeHub.Web.ViewModels.Paste.AddPasteViewModel
+@{
+    ViewBag.Title = "Create New Paste";
+}
+
+@section styles {
+    @Styles.Render("~/Content/kendo")
+    @Styles.Render("~/Content/codemirror")
+}
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Add", "Pastes", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="alert alert-dismissable alert-warning">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <h4>Warning!</h4>
+        <p>@Html.ValidationSummary()</p>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            @Html.FormGroupFor(m => m.Title)
+        </div>
+        <div class="col-md-4">
+            @Html.EditorFor(m => m.SyntaxId, new { ListItem = Model.Syntaxes })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            @Html.EditorFor(m => m.Content)
+        </div>
+        <div class="col-md-4">
+            @Html.EditorFor(m => m.Description)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group pull-right">
+                <div class="controls">
+                    <label class="checkbox">
+                        @Html.EditorFor(m => m.IsPrivate, new { @class = "checkbox" })
+                        @Html.LabelFor(m => m.IsPrivate)
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group pull-right">
+                <div class="controls">
+                    <label class="checkbox">
+                        @Html.EditorFor(m => m.HasBug, new { @class = "checkbox" })
+                        @Html.LabelFor(m => m.HasBug)
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="pull-right">
+                @Html.ActionLink("Cancel", "All", null, new { @class = "btn btn-default" })
+                @Html.Submit(new { @class = "btn btn-primary" })
+            </div>
+        </div>
+    </div>
+}
+
+
+@section scripts {
+    @Scripts.Render("~/bundles/kendo")
+    @Scripts.Render("~/Scripts/codemirror")
+    <script type="text/javascript">
+        $(function () {
+            var textEditor = document.getElementById("code");
+            var editor = new CodeMirror.fromTextArea(textEditor, {
+                mode: "text/x-csharp",
+                lineNumbers: true,
+                matchBrackets: true,
+                theme: "vibrant-ink",
+                showCursorWhenSelecting: true,
+                undoDepth: 100,
+                lineWrapping: true,
+                readOnly: false,
+                autofocus: false,
+            });
+
+            editor.setSize('100%', '100%');
+        });
+    </script>
+}

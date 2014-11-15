@@ -212,6 +212,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KendoImageBrowserController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PastesController.cs" />
     <Compile Include="Controllers\SyntaxesController.cs" />
@@ -241,6 +242,7 @@
     <Compile Include="ViewModels\Manage\VerifyPhoneNumberViewModel.cs" />
     <Compile Include="ViewModels\HomePage\SyntaxHomePageViewModel.cs" />
     <Compile Include="ViewModels\Other\FilterViewModel.cs" />
+    <Compile Include="ViewModels\Paste\AddPasteViewModel.cs" />
     <Compile Include="ViewModels\Paste\BasePasteViewModel.cs" />
     <Compile Include="ViewModels\Paste\PasteDetailsViewModel.cs" />
   </ItemGroup>
@@ -1106,7 +1108,6 @@
     <Content Include="Views\Pastes\Details.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CustomDate.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\SourceCode.cshtml" />
-    <Content Include="Views\Pastes\_SourceCodePartial.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CustomBug.cshtml" />
     <Content Include="Views\Pastes\All.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Currency.cshtml" />
@@ -1125,12 +1126,18 @@
     <Content Include="Views\Shared\DisplayTemplates\Url.cshtml" />
     <Content Include="Views\Pastes\_FilterPartial.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\SyntaxesDropDown.cshtml" />
+    <Content Include="Views\Pastes\Add.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\KendoTextEditor.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\SourceCode.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DropDownList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Administration\Models\" />
+    <Folder Include="Content\UserFiles\Images\" />
     <Folder Include="Scripts\codemirror\mode\rpm\changes\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\KendoImage\" />
     <Folder Include="Views\Syntaxes\" />
   </ItemGroup>
   <ItemGroup>

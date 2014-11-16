@@ -130,7 +130,7 @@
 
             while (generatedStrings.Count < listLength)
             {
-                generatedStrings.Add(this.GetRandomLengthString(minLegth,maxLength));
+                generatedStrings.Add(this.GetRandomLengthString(minLegth, maxLength));
             }
 
             return generatedStrings;

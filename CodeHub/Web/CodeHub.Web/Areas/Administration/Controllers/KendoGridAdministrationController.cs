@@ -3,9 +3,9 @@
     using System.Collections;
     using System.Data.Entity;
     using System.Web.Mvc;
-    
+
     using AutoMapper;
-    
+
     using CodeHub.Data.Contracts;
 
     using Kendo.Mvc.Extensions;
@@ -60,7 +60,7 @@
 
         protected JsonResult GridOperation<T>(T model, [DataSourceRequest]DataSourceRequest request)
         {
-            return Json(new[] { model }.ToDataSourceResult(request, ModelState),JsonRequestBehavior.AllowGet);
+            return Json(new[] { model }.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
         }
 
         private void ChangeEntityStateAndSave(object dbModel, EntityState state)

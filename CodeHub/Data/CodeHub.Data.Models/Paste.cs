@@ -2,7 +2,7 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    
+
     using CodeHub.Data.Common.Models;
 
     public class Paste : DeletableEntity
@@ -29,7 +29,7 @@
 
         public virtual Syntax Syntax { get; set; }
 
-        [Range(0,int.MaxValue)]
+        [Range(0, int.MaxValue)]
         public int Hits { get; set; }
 
         public bool IsPrivate { get; set; }

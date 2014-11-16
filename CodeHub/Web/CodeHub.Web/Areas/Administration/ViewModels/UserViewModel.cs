@@ -18,7 +18,7 @@
 
         public string UserName { get; set; }
 
-        [Display(Name="E-mail")]
+        [Display(Name = "E-mail")]
         public string Email { get; set; }
 
         [Display(Name = "Full Name")]
@@ -33,7 +33,7 @@
         public int CommentsMade { get; set; }
 
         [DefaultValue(0)]
-        [Display(Name="Total score")]
+        [Display(Name = "Total score")]
         public int Points { get; set; }
 
         public void CreateMappings(IConfiguration configuration)

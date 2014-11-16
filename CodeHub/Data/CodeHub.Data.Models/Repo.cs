@@ -44,7 +44,7 @@
 
         public bool IsPrivate { get; set; }
 
-        [Range(0,int.MaxValue)]
+        [Range(0, int.MaxValue)]
         public int Rating { get; set; }
     }
 }

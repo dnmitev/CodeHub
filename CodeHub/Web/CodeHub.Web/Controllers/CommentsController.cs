@@ -1,14 +1,12 @@
 ﻿namespace CodeHub.Web.Controllers
 {
+    using System.Web.Mvc;
+
     using AutoMapper;
+    
     using CodeHub.Data.Contracts;
     using CodeHub.Data.Models;
     using CodeHub.Web.ViewModels.Comment;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web;
-    using System.Web.Mvc;
 
     public class CommentsController : BaseController
     {
@@ -24,9 +22,9 @@
         [ValidateAntiForgeryToken]
         public ActionResult AddComment(AddCommentViewModel comment)
         {
-            if (comment != null && ModelState.IsValid)
+            if (comment != null && this.ModelState.IsValid)
             {
-                var dbComment = Mapper.DynamicMap<Comment>(comment);
+                Comment dbComment = Mapper.DynamicMap<Comment>(comment);
 
                 dbComment.AuthorId = this.CurrentUser.Id;
 
@@ -39,12 +37,12 @@
 
                 this.Data.SaveChanges();
 
-                var viewModel = Mapper.Map<CommentViewModel>(dbComment);
+                CommentViewModel viewModel = Mapper.Map<CommentViewModel>(dbComment);
 
-                return PartialView("_CommentPartial", viewModel);
+                return this.PartialView("_CommentPartial", viewModel);
             }
 
-            return PartialView("_CommentPartial", comment);
+            return this.PartialView("_CommentPartial", comment);
             //throw new HttpException(400, "Invalid comment");
         }
 
@@ -52,10 +50,10 @@
         {
             if (this.CurrentUser != null)
             {
-                var isCurrentUsersComment = this.CurrentUser.Id == this.Data.Comments.GetById(id).AuthorId;
+                bool isCurrentUsersComment = this.CurrentUser.Id == this.Data.Comments.GetById(id).AuthorId;
                 if (isCurrentUsersComment)
                 {
-                    return PartialView("_CommentOptionsPartial", id);
+                    return this.PartialView("_CommentOptionsPartial", id);
                 }
             }
 
@@ -65,27 +63,27 @@
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            var commentToDelete = this.Data.Comments.GetById(id);
+            Comment commentToDelete = this.Data.Comments.GetById(id);
 
             this.Data.Comments.Delete(commentToDelete);
             this.Data.SaveChanges();
 
-            return RedirectToAction("Details", "Pastes", new { id = commentToDelete.PasteId });
+            return this.RedirectToAction("Details", "Pastes", new { id = commentToDelete.PasteId });
         }
 
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var comment = this.Data.Comments.GetById(id);
-            var model = Mapper.Map<EditCommentViewModel>(comment);
-            return View(model);
+            Comment comment = this.Data.Comments.GetById(id);
+            EditCommentViewModel model = Mapper.Map<EditCommentViewModel>(comment);
+            return this.View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(EditCommentViewModel model, int id)
         {
-            var dbComment = this.Data.Comments.GetById(id);
+            Comment dbComment = this.Data.Comments.GetById(id);
 
             Mapper.CreateMap<EditCommentViewModel, Comment>();
             Mapper.Map<EditCommentViewModel, Comment>(model, dbComment);
@@ -93,7 +91,7 @@
             this.Data.Comments.Update(dbComment);
             this.Data.SaveChanges();
 
-            return RedirectToAction("Details", "Pastes", new { id = dbComment.PasteId });
+            return this.RedirectToAction("Details", "Pastes", new { id = dbComment.PasteId });
         }
     }
 }

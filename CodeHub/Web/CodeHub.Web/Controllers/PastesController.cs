@@ -93,6 +93,11 @@
                 pastesQuery = pastesQuery
                          .Where(p => p.AuthorId == this.CurrentUser.Id);
             }
+            else
+            {
+                pastesQuery = pastesQuery
+                    .Where(p => !p.IsPrivate);
+            }
 
             if (withBugs)
             {
@@ -111,7 +116,7 @@
         [Authorize]
         public ActionResult Add()
         {
-            var addPasteViewModel = new AddPasteViewModel()
+            var addPasteViewModel = new EditPasteViewModel()
             {
                 Syntaxes = this.populator.GetSyntaxes()
             };

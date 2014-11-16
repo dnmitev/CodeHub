@@ -12,6 +12,7 @@
 
     using CodeHub.Data.Contracts;
     using CodeHub.Web.Infrastructure.Populators;
+    using CodeHub.Web.Infrastructure.Sanitizing;
     using CodeHub.Web.ViewModels.HomePage;
     using CodeHub.Web.ViewModels.Other;
     using CodeHub.Web.ViewModels.Paste;
@@ -23,11 +24,13 @@
         private const int DefaultAdditionalPointsPerPaste = 10;
 
         private readonly IDropDownListPopulator populator;
+        private readonly ISanitizer sanitizer;
 
-        public PastesController(ICodeHubData data, IDropDownListPopulator populator)
+        public PastesController(ICodeHubData data, IDropDownListPopulator populator, ISanitizer sanitizer)
             : base(data)
         {
             this.populator = populator;
+            this.sanitizer = sanitizer;
         }
 
         [HttpGet]
@@ -126,6 +129,7 @@
                 var dbPaste = Mapper.DynamicMap<Paste>(paste);
 
                 dbPaste.AuthorId = this.CurrentUser.Id;
+                dbPaste.Description = this.sanitizer.Sanitize(dbPaste.Description);
 
                 this.Data.Pastes.Add(dbPaste);
                 this.Data.SaveChanges();
@@ -210,6 +214,8 @@
 
             Mapper.CreateMap<EditPasteViewModel, Paste>();
             Mapper.Map<EditPasteViewModel, Paste>(paste, currentPaste);
+
+            currentPaste.Description = this.sanitizer.Sanitize(currentPaste.Description);
 
             this.Data.Pastes.Update(currentPaste);
             this.Data.SaveChanges();

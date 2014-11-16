@@ -18,6 +18,7 @@ namespace CodeHub.Web.App_Start
     using CodeHub.Common.RandomGenerator;
     using CodeHub.Web.Infrastructure.Populators;
     using CodeHub.Web.Infrastructure.Caching;
+    using CodeHub.Web.Infrastructure.Sanitizing;
 
     public static class NinjectWebCommon 
     {
@@ -75,6 +76,7 @@ namespace CodeHub.Web.App_Start
             kernel.Bind<IFileUploader>().To<FileUploadHelper>();
             kernel.Bind<ICacheService>().To<InMemoryCache>();
             kernel.Bind<IDropDownListPopulator>().To<DropDownListPopulator>();
+            kernel.Bind<ISanitizer>().To<HtmlSanitizerAdapter>();
         }        
     }
 }

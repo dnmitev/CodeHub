@@ -239,6 +239,7 @@
     <Compile Include="ViewModels\Comment\AddCommentViewModel.cs" />
     <Compile Include="ViewModels\Comment\BaseCommentViewModel.cs" />
     <Compile Include="ViewModels\Comment\CommentViewModel.cs" />
+    <Compile Include="ViewModels\Comment\EditCommentViewModel.cs" />
     <Compile Include="ViewModels\HomePage\PasteHomePageViewModel.cs" />
     <Compile Include="ViewModels\Manage\AddPhoneNumberViewModel.cs" />
     <Compile Include="ViewModels\Manage\ChangePasswordViewModel.cs" />
@@ -1151,7 +1152,7 @@
     <Content Include="Views\Shared\_AddCommentPartial.cshtml" />
     <Content Include="Views\Shared\_CommentPartial.cshtml" />
     <Content Include="Views\Comments\_CommentOptionsPartial.cshtml" />
-    <Content Include="Views\Comments\_EditCommentPartial.cshtml" />
+    <Content Include="Views\Comments\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

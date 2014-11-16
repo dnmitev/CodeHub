@@ -1,0 +1,15 @@
+﻿@model CodeHub.Web.ViewModels.Comment.EditCommentViewModel
+@{
+    ViewBag.Title = "Comment editor";
+}
+
+<h2>@ViewBag.Title</h2>
+@using (@Html.BeginForm("Edit","Comments", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    
+    @Html.HiddenFor(m => m.Id)
+    @Html.EditorFor(m => m.Content)
+    
+    @Html.Submit(new { @class="btn btn-primary" })
+}

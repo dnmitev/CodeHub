@@ -14,7 +14,8 @@
     {
         private const int DefaultAdditionalPointsPerComment = 5;
 
-        public CommentsController(ICodeHubData data) : base(data)
+        public CommentsController(ICodeHubData data)
+            : base(data)
         {
         }
 
@@ -46,15 +47,14 @@
             throw new HttpException(400, "Invalid comment");
         }
 
-        [HttpGet]
-        public ActionResult CommentOptions(int? commentId)
+        public ActionResult CommentOptions(int id)
         {
             if (this.CurrentUser != null)
             {
-                var isCurrentUsersComment = this.CurrentUser.Id == this.Data.Comments.GetById(commentId).AuthorId;
+                var isCurrentUsersComment = this.CurrentUser.Id == this.Data.Comments.GetById(id).AuthorId;
                 if (isCurrentUsersComment)
                 {
-                    return PartialView("_CommentOptionsPartial", commentId);
+                    return PartialView("_CommentOptionsPartial", id);
                 }
             }
 
@@ -75,8 +75,24 @@
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            return new EmptyResult();
-            //return PartialView("_EditCommentPartial");
+            var comment = this.Data.Comments.GetById(id);
+            var model = Mapper.Map<EditCommentViewModel>(comment);
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(EditCommentViewModel model, int id)
+        {
+            var dbComment = this.Data.Comments.GetById(id);
+
+            Mapper.CreateMap<EditCommentViewModel, Comment>();
+            Mapper.Map<EditCommentViewModel, Comment>(model, dbComment);
+
+            this.Data.Comments.Update(dbComment);
+            this.Data.SaveChanges();
+
+            return RedirectToAction("Details", "Pastes", new { id = dbComment.PasteId });
         }
     }
 }

@@ -10,7 +10,7 @@
 
     public class CommentViewModel : BaseCommentViewModel, IHaveCustomMappings
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         public string AuthorName { get; set; }
 

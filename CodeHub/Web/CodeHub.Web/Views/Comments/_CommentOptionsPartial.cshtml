@@ -1,27 +1,8 @@
-﻿@model int?
+﻿@model int
 
-<button class="btn btn-sm btn-warning" data-toggle="tooltip"  data-placement="left" title="Edit Comment" >
-    <span class="glyphicon glyphicon-edit" data-toggle="modal" data-target="#myModal"></span>
-</button>
+<a href="/Comments/Edit/@Model" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="left" title="Edit Comment">
+    <span class="glyphicon glyphicon-edit"></span>
+</a>
 <a href="/comments/delete/@Model" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="right" title="delete comment">
     <span class="glyphicon glyphicon-remove"></span>
 </a>
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-            </div>
-            <div class="modal-body">
-                @Html.EditorFor()
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>

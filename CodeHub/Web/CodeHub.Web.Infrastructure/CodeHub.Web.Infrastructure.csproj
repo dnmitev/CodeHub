@@ -42,6 +42,9 @@
     <Reference Include="HtmlSanitizer">
       <HintPath>..\..\packages\HtmlSanitizer.1.1.5338.17998\lib\net40\HtmlSanitizer.dll</HintPath>
     </Reference>
+    <Reference Include="Kendo.Mvc">
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Telerik\UI for ASP.NET MVC Q2 2014\wrappers\aspnetmvc\Binaries\Mvc5\Kendo.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -86,6 +89,7 @@
     <Compile Include="Filters\UserNameAllowedSymbolsAttribute.cs" />
     <Compile Include="Helpers\FormGroupExtensions.cs" />
     <Compile Include="Helpers\HtmlBtnExtensions.cs" />
+    <Compile Include="Helpers\KendoGridHelper.cs" />
     <Compile Include="Mapping\AutoMapperConfig.cs" />
     <Compile Include="Mapping\IHaveCustomMappings.cs" />
     <Compile Include="Mapping\IMapFrom.cs" />

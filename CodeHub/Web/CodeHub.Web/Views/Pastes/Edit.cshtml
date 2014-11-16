@@ -1,6 +1,6 @@
-﻿@model CodeHub.Web.ViewModels.Paste.AddPasteViewModel
+﻿@model CodeHub.Web.ViewModels.Paste.EditPasteViewModel
 @{
-    ViewBag.Title = "Create New Paste";
+    ViewBag.Title = "Edit paste";
 }
 
 @section styles {
@@ -10,12 +10,11 @@
 
 <h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm("Add", "Pastes", FormMethod.Post))
+@using (Html.BeginForm("Edit", "Pastes",new { id = Model.Id}, FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     @Html.EditorForModel()
 }
-
 
 @section scripts {
     @Scripts.Render("~/bundles/kendo")

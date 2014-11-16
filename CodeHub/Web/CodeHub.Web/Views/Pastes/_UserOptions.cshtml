@@ -1,0 +1,22 @@
+﻿@model CodeHub.Web.ViewModels.Paste.PasteUserOptionsViewModel
+<div class="row">
+        @if (!Model.HasBug)
+        {
+            <div class="col-md-4">
+                @Html.ActionLink("Flag a bug", "FlagBug", new { pasteId = Model.Id }, new { @class = "btn btn-danger" })
+            </div>
+        }
+        @if (Model.HasCurrentUserAsAuthor)
+        {
+            if (!Model.IsPrivate)
+            {
+                <div class="col-md-4">
+                    @Html.ActionLink("Make Private", "MakePrivate", new { pasteId = Model.Id }, new { @class = "btn btn-warning" })
+                </div>
+            }
+
+            <div class="col-md-4">
+                @Html.ActionLink("Edit", "Edit", new { pasteId = Model.Id }, new { @class = "btn btn-primary" })
+            </div>
+        }
+</div>

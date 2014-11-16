@@ -9,27 +9,42 @@
 <h2>@ViewBag.Title</h2>
 <div class="row">
     <div class="row">
-        <h3>
-            <span class="glyphicon glyphicon-file" aria-hidden="true"></span>@Model.Title
-        </h3>
-        <h4>
-            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>Author: @Model.Author
-        </h4>
-    </div>
-    <div class="row">
-        <div class="col-md-3">Syntax: @Model.Syntax</div>
-        <div class="col-md-3">Hitted: @Model.Hits</div>
-        <div class="col-md-3">Created on:@Html.DisplayFor(m => m.CreatedOn)</div>
-        <div class="col-md-3">
-            @Html.DisplayFor(m=>m.HasBug)
+        <div class="col-md-6">
+            <h3>
+                <span class="glyphicon glyphicon-file" aria-hidden="true"></span>@Model.Title
+            </h3>
+            <h4>
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>Author: @Model.Author
+            </h4>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8">
-            @Html.DisplayFor(m => m.Content)
+        <div class="row">
+            <div class="col-md-6 pull-right">
+                @Html.Action("UserOptions", new { pasteId = Model.Id })
+            </div>
         </div>
-        <div class="col-md-4 text-justify">
-            @Html.DisplayFor(m => m.Description)
+        <div class="row">
+            <div class="col-md-3">Syntax: @Model.Syntax</div>
+            <div class="col-md-2">Hitted: @Model.Hits</div>
+            <div class="col-md-3">Created on:@Html.DisplayFor(m => m.CreatedOn)</div>
+            <div class="col-md-2">
+                @Html.DisplayFor(m => m.HasBug)
+            </div>
+            <div class="col-md-2">
+                @if (Model.IsPrivate)
+                {
+                    <p class="text text-info">
+                        <span class="glyphicon glyphicon-ok"> Private</span>
+                    </p>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                @Html.DisplayFor(m => m.Content)
+            </div>
+            <div class="col-md-4 text-justify">
+                @Html.DisplayFor(m => m.Description)
+            </div>
         </div>
     </div>
 </div>

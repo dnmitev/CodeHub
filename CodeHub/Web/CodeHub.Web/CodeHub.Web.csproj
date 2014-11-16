@@ -244,7 +244,9 @@
     <Compile Include="ViewModels\Other\FilterViewModel.cs" />
     <Compile Include="ViewModels\Paste\AddPasteViewModel.cs" />
     <Compile Include="ViewModels\Paste\BasePasteViewModel.cs" />
+    <Compile Include="ViewModels\Paste\EditPasteViewModel.cs" />
     <Compile Include="ViewModels\Paste\PasteDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Paste\PasteUserOptionsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-fileinput\css\fileinput.css" />
@@ -451,6 +453,8 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.11.1.js" />
     <Content Include="Scripts\jquery-ui.min-1.11.1.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -1130,6 +1134,9 @@
     <Content Include="Views\Shared\EditorTemplates\KendoTextEditor.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\SourceCode.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DropDownList.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\EditPasteViewModel.cshtml" />
+    <Content Include="Views\Pastes\_UserOptions.cshtml" />
+    <Content Include="Views\Pastes\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

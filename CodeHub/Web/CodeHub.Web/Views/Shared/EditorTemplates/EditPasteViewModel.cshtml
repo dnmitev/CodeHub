@@ -1,0 +1,48 @@
+﻿@model CodeHub.Web.ViewModels.Paste.EditPasteViewModel
+@Html.ValidationSummary(false, string.Empty, new { @class = "text-danger" })
+<div class="row">
+    <div class="col-md-8">
+        @Html.FormGroupFor(m => m.Title)
+    </div>
+    <div class="col-md-4">
+        @Html.EditorFor(m => m.SyntaxId, new { ListItem = Model.Syntaxes })
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        @Html.EditorFor(m => m.Content)
+    </div>
+    <div class="col-md-4">
+        @Html.EditorFor(m => m.Description)
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group pull-right">
+            <div class="controls">
+                <label class="checkbox">
+                    @Html.EditorFor(m => m.IsPrivate, new { @class = "checkbox" })
+                    @Html.LabelFor(m => m.IsPrivate)
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group pull-right">
+            <div class="controls">
+                <label class="checkbox">
+                    @Html.EditorFor(m => m.HasBug, new { @class = "checkbox" })
+                    @Html.LabelFor(m => m.HasBug)
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="pull-right">
+            @Html.ActionLink("Cancel", "All", null, new { @class = "btn btn-default" })
+            @Html.Submit(new { @class = "btn btn-primary" })
+        </div>
+    </div>
+</div>

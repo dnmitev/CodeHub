@@ -18,6 +18,9 @@
         [MinLength(50)]
         public string Description { get; set; }
 
+        [Display(Name="Private")]
+        public bool IsPrivate { get; set; }
+
         public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<Paste, PasteDetailsViewModel>()

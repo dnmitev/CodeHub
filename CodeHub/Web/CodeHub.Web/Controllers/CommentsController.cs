@@ -44,7 +44,8 @@
                 return PartialView("_CommentPartial", viewModel);
             }
 
-            throw new HttpException(400, "Invalid comment");
+            return PartialView("_CommentPartial", comment);
+            //throw new HttpException(400, "Invalid comment");
         }
 
         public ActionResult CommentOptions(int id)

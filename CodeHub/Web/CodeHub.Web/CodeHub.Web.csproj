@@ -1151,6 +1151,7 @@
     <Content Include="Views\Shared\_CommentPartial.cshtml" />
     <Content Include="Views\Comments\_CommentOptionsPartial.cshtml" />
     <Content Include="Views\Comments\Edit.cshtml" />
+    <Content Include="Views\Shared\_AdminMenuPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -17,6 +17,7 @@
     using CodeHub.Web.ViewModels.Other;
     using CodeHub.Web.ViewModels.Paste;
     using CodeHub.Data.Models;
+    using CodeHub.Web.ViewModels.Comment;
 
     public class PastesController : BaseController
     {
@@ -73,6 +74,15 @@
 
             this.Data.Pastes.Update(dbPaste);
             this.Data.SaveChanges();
+
+            // Get paste's comments
+            paste.Comments = this.Data.Comments
+                 .All()
+                 .OrderByDescending(c => c.Id)
+                 .Where(c => c.PasteId == id)
+                 .Project()
+                 .To<CommentViewModel>()
+                 .ToList();
 
             return View(paste);
         }
@@ -155,16 +165,21 @@
         [ChildActionOnly]
         public ActionResult UserOptions(string pasteId)
         {
-            var currentPaste = this.Data.Pastes.GetById(new Guid(pasteId));
-            var options = new PasteUserOptionsViewModel()
+            if (this.CurrentUser != null)
             {
-                Id = pasteId,
-                HasBug = currentPaste.HasBug,
-                IsPrivate = currentPaste.IsPrivate,
-                HasCurrentUserAsAuthor = currentPaste.AuthorId == this.CurrentUser.Id
-            };
+                var currentPaste = this.Data.Pastes.GetById(new Guid(pasteId));
+                var options = new PasteUserOptionsViewModel()
+                {
+                    Id = pasteId,
+                    HasBug = currentPaste.HasBug,
+                    IsPrivate = currentPaste.IsPrivate,
+                    HasCurrentUserAsAuthor = currentPaste.AuthorId == this.CurrentUser.Id
+                };
 
-            return PartialView("_UserOptions", options);
+                return PartialView("_UserOptions", options);
+            }
+
+            return new EmptyResult();
         }
 
         [Authorize]

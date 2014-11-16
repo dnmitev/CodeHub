@@ -1,0 +1,20 @@
+﻿@model CodeHub.Web.ViewModels.Comment.AddCommentViewModel
+@using (Ajax.BeginForm("AddComment", "Comments",
+    new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.InsertBefore,
+        UpdateTargetId = "comments"
+    }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="col-md-8">
+        @Html.HiddenFor(m => m.PasteId)
+        @Html.EditorFor(m => m.Content)
+    </div>
+    <div class="col-md-4">
+        @Html.Submit(new { @class = "btn btn-primary" })
+    </div>
+}
+<hr />

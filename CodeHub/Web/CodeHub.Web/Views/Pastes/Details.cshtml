@@ -48,9 +48,26 @@
         </div>
     </div>
 </div>
+@if (Request.IsAuthenticated)
+{
+    <div class="row">
+        @Html.Partial("_AddCommentPartial", new CodeHub.Web.ViewModels.Comment.AddCommentViewModel(Model.Id))
+    </div>
+}
+
+<div id="comments">
+    @if (Model.Comments != null)
+    {
+        foreach (var comment in Model.Comments)
+        {
+            @Html.Partial("_CommentPartial", comment)
+        }
+    }
+</div>
 
 @section scripts{
     @Scripts.Render("~/Scripts/codemirror")
+    @Scripts.Render("~/bundles/jqueryajax")
     <script type="text/javascript">
         $(function () {
             var textEditor = document.getElementById("code");
@@ -66,9 +83,11 @@
                 autofocus: false,
             });
 
-            console.log(textEditor);
-
             editor.setSize('100%', '100%');
+
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
         });
     </script>
 }

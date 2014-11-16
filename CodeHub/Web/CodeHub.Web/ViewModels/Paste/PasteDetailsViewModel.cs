@@ -3,7 +3,9 @@
     using AutoMapper;
     using CodeHub.Data.Models;
     using CodeHub.Web.Infrastructure.Mapping;
+    using CodeHub.Web.ViewModels.Comment;
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Web.Mvc;
     
@@ -20,6 +22,8 @@
 
         [Display(Name="Private")]
         public bool IsPrivate { get; set; }
+
+        public ICollection<CommentViewModel> Comments { get; set; }
 
         public void CreateMappings(IConfiguration configuration)
         {

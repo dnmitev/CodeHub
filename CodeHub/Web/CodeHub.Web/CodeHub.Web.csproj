@@ -217,6 +217,7 @@
     <Compile Include="Areas\Administration\Controllers\HomeController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KendoImageBrowserController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -235,6 +236,9 @@
     <Compile Include="ViewModels\Account\ResetPasswordViewModel.cs" />
     <Compile Include="ViewModels\Account\SendCodeViewModel.cs" />
     <Compile Include="ViewModels\Account\VerifyCodeViewModel.cs" />
+    <Compile Include="ViewModels\Comment\AddCommentViewModel.cs" />
+    <Compile Include="ViewModels\Comment\BaseCommentViewModel.cs" />
+    <Compile Include="ViewModels\Comment\CommentViewModel.cs" />
     <Compile Include="ViewModels\HomePage\PasteHomePageViewModel.cs" />
     <Compile Include="ViewModels\Manage\AddPhoneNumberViewModel.cs" />
     <Compile Include="ViewModels\Manage\ChangePasswordViewModel.cs" />
@@ -1143,6 +1147,11 @@
     <Content Include="Views\Shared\EditorTemplates\EditPasteViewModel.cshtml" />
     <Content Include="Views\Pastes\_UserOptions.cshtml" />
     <Content Include="Views\Pastes\Edit.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\BootstrapTextArea.cshtml" />
+    <Content Include="Views\Shared\_AddCommentPartial.cshtml" />
+    <Content Include="Views\Shared\_CommentPartial.cshtml" />
+    <Content Include="Views\Comments\_CommentOptionsPartial.cshtml" />
+    <Content Include="Views\Comments\_EditCommentPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

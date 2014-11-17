@@ -27,15 +27,15 @@
         public string Description { get; set; }
 
         [UIHint("DropDownList")]
-        [Display(Name="Source code syntax")]
+        [Display(Name = "Source code syntax")]
         public int SyntaxId { get; set; }
 
         public IEnumerable<SelectListItem> Syntaxes { get; set; }
 
-        [Display(Name="I want this to be private")]
+        [Display(Name = "I want this to be private")]
         public bool IsPrivate { get; set; }
 
-        [Display(Name="I have a bug")]
+        [Display(Name = "I have a bug")]
         public bool HasBug { get; set; }
     }
 }

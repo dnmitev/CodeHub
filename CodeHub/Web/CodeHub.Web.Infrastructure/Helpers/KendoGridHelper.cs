@@ -22,27 +22,25 @@
             }
 
             return helper.Kendo()
-                .Grid<T>()
-                .Name("grid")
-                .Columns(columns)
-                .ColumnMenu()
-                .Pageable(page => page.Refresh(true))
-                .Sortable()
-                .Groupable()
-                .Filterable()
-                .Editable(edit => edit.Mode(GridEditMode.PopUp))
-                .Resizable(resize => resize.Columns(true))
-                .DataSource(data =>
-                    data
-                        .Ajax()
-                        .Model(m => m.Id(modelIdExpression))
-                        .ServerOperation(true)
-                        .Events(ev => ev.Error("errorHandler"))
-                        .Model(model)
-                        .Read(read => read.Action("Read", controllerName))
-                        .Update(update => update.Action("Update", controllerName))
-                        .Destroy(destroy => destroy.Action("Destroy", controllerName))
-                        );
+                         .Grid<T>()
+                         .Name("grid")
+                         .Columns(columns)
+                         .ColumnMenu()
+                         .Pageable(page => page.Refresh(true))
+                         .Sortable()
+                         .Groupable()
+                         .Filterable()
+                         .Editable(edit => edit.Mode(GridEditMode.PopUp))
+                         .Resizable(resize => resize.Columns(true))
+                         .DataSource(data => data
+                                                 .Ajax()
+                                                 .Model(m => m.Id(modelIdExpression))
+                                                 .ServerOperation(true)
+                                                 .Events(ev => ev.Error("errorHandler"))
+                                                 .Model(model)
+                                                 .Read(read => read.Action("Read", controllerName))
+                                                 .Update(update => update.Action("Update", controllerName))
+                                                 .Destroy(destroy => destroy.Action("Destroy", controllerName)));
         }
 
         public static GridBuilder<T> ReadAndDeleteGrid<T>(this HtmlHelper helper, string controllerName, Expression<Func<T, object>> modelIdExpression, Action<GridColumnFactory<T>> columns = null) where T : class
@@ -58,26 +56,24 @@
             }
 
             return helper.Kendo()
-                .Grid<T>()
-                .Name("grid")
-                .Columns(columns)
-                .ColumnMenu()
-                .Pageable(page => page.Refresh(true))
-                .Sortable()
-                .Groupable()
-                .Filterable()
-                .Editable(edit => edit.Mode(GridEditMode.PopUp))
-                .Resizable(resize => resize.Columns(true))
-                .DataSource(data =>
-                    data
-                        .Ajax()
-                        .Model(m => m.Id(modelIdExpression))
-                        .ServerOperation(true)
-                        .Events(ev => ev.Error("errorHandler"))
-                        .Read(read => read.Action("Read", controllerName))
-                        .Update(update => update.Action("Update", controllerName))
-                        .Destroy(destroy => destroy.Action("Destroy", controllerName))
-                        );
+                         .Grid<T>()
+                         .Name("grid")
+                         .Columns(columns)
+                         .ColumnMenu()
+                         .Pageable(page => page.Refresh(true))
+                         .Sortable()
+                         .Groupable()
+                         .Filterable()
+                         .Editable(edit => edit.Mode(GridEditMode.PopUp))
+                         .Resizable(resize => resize.Columns(true))
+                         .DataSource(data => data
+                                                 .Ajax()
+                                                 .Model(m => m.Id(modelIdExpression))
+                                                 .ServerOperation(true)
+                                                 .Events(ev => ev.Error("errorHandler"))
+                                                 .Read(read => read.Action("Read", controllerName))
+                                                 .Update(update => update.Action("Update", controllerName))
+                                                 .Destroy(destroy => destroy.Action("Destroy", controllerName)));
         }
     }
 }

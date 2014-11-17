@@ -10,11 +10,11 @@
             this.WithBugs = false;
         }
 
-        [Display(Name="Choose syntax")]
+        [Display(Name = "Choose syntax")]
         [UIHint("SyntaxesDropDown")]
         public int? Syntax { get; set; }
 
-        [Display(Name="Only mine pastes")]
+        [Display(Name = "Only mine pastes")]
         public bool OnlyMine { get; set; }
 
         [Display(Name = "Pastes with bugs")]

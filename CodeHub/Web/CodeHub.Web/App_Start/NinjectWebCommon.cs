@@ -6,23 +6,21 @@ namespace CodeHub.Web.App_Start
     using System;
     using System.Web;
 
-    using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+    using CodeHub.Common.FileUpload;
+    using CodeHub.Data;
+    using CodeHub.Data.Contracts;
+    using CodeHub.Web.Infrastructure.Caching;
+    using CodeHub.Web.Infrastructure.Populators;
+    using CodeHub.Web.Infrastructure.Sanitizing;
 
+    using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+    
     using Ninject;
     using Ninject.Web.Common;
 
-    using CodeHub.Data;
-    using CodeHub.Data.Contracts;
-    using CodeHub.Common.FileUpload;
-    using CodeHub.Common.RandomGenerator.Contracts;
-    using CodeHub.Common.RandomGenerator;
-    using CodeHub.Web.Infrastructure.Populators;
-    using CodeHub.Web.Infrastructure.Caching;
-    using CodeHub.Web.Infrastructure.Sanitizing;
-
     public static class NinjectWebCommon 
     {
-        private static readonly Bootstrapper bootstrapper = new Bootstrapper();
+        private static readonly Bootstrapper Bootstrapper = new Bootstrapper();
 
         /// <summary>
         /// Starts the application
@@ -31,7 +29,7 @@ namespace CodeHub.Web.App_Start
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
-            bootstrapper.Initialize(CreateKernel);
+            Bootstrapper.Initialize(CreateKernel);
         }
         
         /// <summary>
@@ -39,7 +37,7 @@ namespace CodeHub.Web.App_Start
         /// </summary>
         public static void Stop()
         {
-            bootstrapper.ShutDown();
+            Bootstrapper.ShutDown();
         }
         
         /// <summary>

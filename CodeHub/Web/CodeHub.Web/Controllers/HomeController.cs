@@ -23,7 +23,7 @@
                                .To<SyntaxHomePageViewModel>()
                                .ToList();
 
-            return View(syntaxes);
+            return this.View(syntaxes);
         }
     }
 }

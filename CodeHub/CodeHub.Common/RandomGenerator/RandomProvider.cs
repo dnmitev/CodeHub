@@ -8,13 +8,13 @@
 
     public sealed class RandomProvider : IRandomProvider
     {
-        private static Random randomGenerator;
-        private static IRandomProvider randomProvider;
-
         private const int DefaultMinimaLStringLength = 3;
         private const int DefaultMaximalStringLenght = 10;
         private const string CharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ";
         private const string DigitsSet = "0123456789";
+
+        private static Random randomGenerator;
+        private static IRandomProvider randomProvider;
 
         private RandomProvider()
         {

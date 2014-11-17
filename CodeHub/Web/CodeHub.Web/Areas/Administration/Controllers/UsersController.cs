@@ -7,6 +7,8 @@
     using AutoMapper.QueryableExtensions;
 
     using CodeHub.Data.Contracts;
+    using CodeHub.Data.Models;
+    using CodeHub.Web.Areas.Administration.ViewModels;
 
     using Kendo.Mvc.UI;
 
@@ -15,62 +17,50 @@
 
     public class UsersController : KendoGridAdministrationController
     {
-        public UsersController(ICodeHubData data) : base(data)
+        public UsersController(ICodeHubData data)
+            : base(data)
         {
         }
 
         public ActionResult Index()
         {
-            return View();
-        }
-
-        protected override IEnumerable GetData()
-        {
-            var data = this.Data.Users
-                           .All()
-                           .Project()
-                           .To<ViewModel>();
-
-            return data;
-        }
-
-        protected override T GetById<T>(object id)
-        {
-            return this.Data.Users.GetById(id) as T;
+            return this.View();
         }
 
         [HttpPost]
-        public ActionResult Create([DataSourceRequest] DataSourceRequest request, ViewModel model)
+        public ActionResult Create([DataSourceRequest]DataSourceRequest request, ViewModel model)
         {
-            var dbModel = base.Create<Model>(model);
-            if (dbModel != null)
+            Model modelToDb = base.Create<Model>(model);
+            if (modelToDb != null)
             {
-                model.Id = dbModel.Id.ToString();
+                model.Id = modelToDb.Id.ToString();
             }
 
             return this.GridOperation(model, request);
         }
 
         [HttpPost]
-        public ActionResult Update([DataSourceRequest]DataSourceRequest request, ViewModel model)
+        public ActionResult Update([DataSourceRequest]
+                                   DataSourceRequest request, ViewModel model)
         {
             base.Update<Model, ViewModel>(model, model.Id);
             return this.GridOperation(model, request);
         }
 
         [HttpPost]
-        public ActionResult Destroy([DataSourceRequest]DataSourceRequest request, ViewModel model)
+        public ActionResult Destroy([DataSourceRequest]
+                                    DataSourceRequest request, ViewModel model)
         {
-            if (model != null && ModelState.IsValid)
+            if (model != null && this.ModelState.IsValid)
             {
-                var user = this.Data.Users.GetById(model.Id);
+                User user = this.Data.Users.GetById(model.Id);
 
-                var userPastes = this.Data.Pastes
-                                     .All()
-                                     .Where(p => p.AuthorId == user.Id);
+                IQueryable<Paste> userPastes = this.Data.Pastes
+                                                   .All()
+                                                   .Where(p => p.AuthorId == user.Id);
 
                 int counter = 0;
-                foreach (var paste in
+                foreach (Model paste in
                     this.Data.Pastes
                         .All()
                         .Where(p => p.AuthorId == user.Id)
@@ -83,10 +73,11 @@
                         this.Data.SaveChanges();
                     }
                 }
+
                 this.Data.SaveChanges();
 
                 counter = 0;
-                foreach (var comment in 
+                foreach (Comment comment in
                     this.Data.Comments
                         .All()
                         .Where(c => c.AuthorId == user.Id)
@@ -99,6 +90,7 @@
                         this.Data.SaveChanges();
                     }
                 }
+
                 this.Data.SaveChanges();
 
                 this.Data.Users.Delete(user);
@@ -106,6 +98,21 @@
             }
 
             return this.GridOperation(model, request);
+        }
+
+        protected override IEnumerable GetData()
+        {
+            IQueryable<UserViewModel> data = this.Data.Users
+                                                 .All()
+                                                 .Project()
+                                                 .To<ViewModel>();
+
+            return data;
+        }
+
+        protected override T GetById<T>(object id)
+        {
+            return this.Data.Users.GetById(id) as T;
         }
     }
 }

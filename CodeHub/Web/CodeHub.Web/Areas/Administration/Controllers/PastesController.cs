@@ -6,9 +6,9 @@
 
     using AutoMapper.QueryableExtensions;
 
-    using Kendo.Mvc.UI;
-
     using CodeHub.Data.Contracts;
+
+    using Kendo.Mvc.UI;
 
     using Model = CodeHub.Data.Models.Paste;
     using ViewModel = CodeHub.Web.Areas.Administration.ViewModels.PasteViewModel;
@@ -32,7 +32,40 @@
                 })
                 .ToList();
 
-            return View();
+            return this.View();
+        }
+
+        [HttpPost]
+        public ActionResult Create([DataSourceRequest]DataSourceRequest request, ViewModel model)
+        {
+            var modelToDb = base.Create<Model>(model);
+            if (modelToDb != null)
+            {
+                model.Id = modelToDb.Id;
+            }
+
+            return this.GridOperation(model, request);
+        }
+
+        [HttpPost]
+        public ActionResult Update([DataSourceRequest]DataSourceRequest request, ViewModel model)
+        {
+            base.Update<Model, ViewModel>(model, model.Id);
+            return this.GridOperation(model, request);
+        }
+
+        [HttpPost]
+        public ActionResult Destroy([DataSourceRequest]DataSourceRequest request, ViewModel model)
+        {
+            if (model != null && ModelState.IsValid)
+            {
+                var paste = this.Data.Pastes.GetById(model.Id);
+
+                this.Data.Pastes.Delete(paste);
+                this.Data.SaveChanges();
+            }
+
+            return this.GridOperation(model, request);
         }
 
         protected override IEnumerable GetData()
@@ -48,42 +81,6 @@
         protected override T GetById<T>(object id)
         {
             return this.Data.Pastes.GetById(id) as T;
-        }
-
-        [HttpPost]
-        public ActionResult Create([DataSourceRequest]
-                                   DataSourceRequest request, ViewModel model)
-        {
-            var dbModel = base.Create<Model>(model);
-            if (dbModel != null)
-            {
-                model.Id = dbModel.Id;
-            }
-
-            return this.GridOperation(model, request);
-        }
-
-        [HttpPost]
-        public ActionResult Update([DataSourceRequest]
-                                   DataSourceRequest request, ViewModel model)
-        {
-            base.Update<Model, ViewModel>(model, model.Id);
-            return this.GridOperation(model, request);
-        }
-
-        [HttpPost]
-        public ActionResult Destroy([DataSourceRequest]
-                                    DataSourceRequest request, ViewModel model)
-        {
-            if (model != null && ModelState.IsValid)
-            {
-                var paste = this.Data.Pastes.GetById(model.Id);
-
-                this.Data.Pastes.Delete(paste);
-                this.Data.SaveChanges();
-            }
-
-            return this.GridOperation(model, request);
         }
     }
 }

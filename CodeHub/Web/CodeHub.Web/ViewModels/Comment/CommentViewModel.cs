@@ -1,12 +1,12 @@
 ﻿namespace CodeHub.Web.ViewModels.Comment
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
 
     using AutoMapper;
 
     using CodeHub.Data.Models;
     using CodeHub.Web.Infrastructure.Mapping;
-    using System.ComponentModel.DataAnnotations;
 
     public class CommentViewModel : BaseCommentViewModel, IHaveCustomMappings
     {

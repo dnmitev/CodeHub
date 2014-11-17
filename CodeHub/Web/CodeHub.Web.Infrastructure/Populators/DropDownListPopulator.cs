@@ -20,17 +20,18 @@
 
         public IEnumerable<SelectListItem> GetSyntaxes()
         {
-            var syntaxes = this.cache.Get<IEnumerable<SelectListItem>>("syntaxes",
+            IEnumerable<SelectListItem> syntaxes = this.cache.Get<IEnumerable<SelectListItem>>(
+                "syntaxes",
                 () =>
                 {
                     return this.data.Syntaxes
-                       .All()
-                       .Select(c => new SelectListItem
-                       {
-                           Value = c.Id.ToString(),
-                           Text = c.Name
-                       })
-                       .ToList();
+                               .All()
+                               .Select(c => new SelectListItem
+                                      {
+                                          Value = c.Id.ToString(),
+                                          Text = c.Name
+                                      })
+                               .ToList();
                 });
 
             return syntaxes;

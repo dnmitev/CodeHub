@@ -3,29 +3,28 @@ namespace CodeHub.Data.Migrations
     using System;
     using System.Collections.Generic;
     using System.Data.Entity.Migrations;
-    using System.Linq;
     using System.IO;
-    using System.Text;
+    using System.Linq;
     using System.Reflection;
-
-    using Microsoft.AspNet.Identity.EntityFramework;
-    using Microsoft.AspNet.Identity;
-
+    using System.Text;
     using CodeHub.Common;
-    using CodeHub.Common.RandomGenerator.Contracts;
     using CodeHub.Common.RandomGenerator;
+    using CodeHub.Common.RandomGenerator.Contracts;
     using CodeHub.Data.Models;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
 
     internal sealed class Configuration : DbMigrationsConfiguration<CodeHubDbContext>
     {
-        private IList<User> users;
+        private readonly IList<User> users;
+        private readonly IList<Comment> comments;
+
+        private readonly IDictionary<string, string> pastesData;
+
+        private readonly IRandomProvider randomProvider;
+
         private IList<Syntax> syntaxes;
         private IList<Paste> pastes;
-        private IList<Comment> comments;
-
-        private IDictionary<string, string> pastesData;
-
-        private IRandomProvider randomProvider;
 
         public Configuration()
         {
@@ -44,44 +43,44 @@ namespace CodeHub.Data.Migrations
         {
             if (!context.Roles.Any(r => r.Name == GlobalConstants.AdminRole))
             {
-                SeedRoles(context);
+                this.SeedRoles(context);
                 context.SaveChanges();
             }
 
             if (!context.Users.Any())
             {
-                SeedUsers(context);
+                this.SeedUsers(context);
                 context.SaveChanges();
             }
 
             if (!context.Syntaxes.Any())
             {
-                SeedSyntaxes(context);
+                this.SeedSyntaxes(context);
                 context.SaveChanges();
             }
 
             if (!context.Pastes.Any())
             {
-                SeedPastes(context);
+                this.SeedPastes(context);
                 context.SaveChanges();
             }
 
             if (!context.Comments.Any())
             {
-                SeedComments(context);
+                this.SeedComments(context);
                 context.SaveChanges();
             }
 
             if (!context.Repos.Any())
             {
-                SeedRepo(context);
+                this.SeedRepo(context);
                 context.SaveChanges();
             }
         }
  
         private void SeedRepo(CodeHubDbContext context)
         {
-            var currentOwner = this.users[this.randomProvider.GetRandomInt(0, (users.Count - 1))];
+            User currentOwner = this.users[this.randomProvider.GetRandomInt(0, this.users.Count - 1)];
             context.Repos.Add(
                 new Repo()
                 {
@@ -93,20 +92,20 @@ namespace CodeHub.Data.Migrations
 
         private void SeedComments(CodeHubDbContext context)
         {
-            var dbPastes = context.Pastes.ToList();
-            var numberOfComments = this.randomProvider.GetRandomInt(5, 10);
+            List<Paste> pastesToDb = context.Pastes.ToList();
+            int numberOfComments = this.randomProvider.GetRandomInt(5, 10);
             for (int i = 0; i < numberOfComments; i++)
             {
                 this.comments.Add(
                     new Comment()
                     {
-                        Author = this.users[this.randomProvider.GetRandomInt(0, (users.Count - 1))],
+                        Author = this.users[this.randomProvider.GetRandomInt(0, this.users.Count - 1)],
                         Content = this.randomProvider.GetRandomString(150),
-                        Paste = dbPastes[this.randomProvider.GetRandomInt(0, dbPastes.Count - 1)]
+                        Paste = pastesToDb[this.randomProvider.GetRandomInt(0, pastesToDb.Count - 1)]
                     });
             }
 
-            foreach (var comment in this.comments)
+            foreach (Comment comment in this.comments)
             {
                 context.Comments.Add(comment);
             }
@@ -120,47 +119,47 @@ namespace CodeHub.Data.Migrations
             {
                 new Paste
                 {
-                    Author = this.users[this.randomProvider.GetRandomInt(0, (users.Count - 1))],
+                    Author = this.users[this.randomProvider.GetRandomInt(0, this.users.Count - 1)],
                     Title = "Find Catalan's numbers problem",
                     Content = this.pastesData["C#"],
                     Description = this.pastesData["description"],
-                    Syntax = syntaxes[0]
+                    Syntax = this.syntaxes[0]
                 },
                 new Paste
                 {
-                    Author = this.users[this.randomProvider.GetRandomInt(0, (users.Count - 1))],
+                    Author = this.users[this.randomProvider.GetRandomInt(0, this.users.Count - 1)],
                     Title = "HTML5 Example",
                     Content = this.pastesData["HTML"],
                     Description = this.pastesData["description"],
-                    Syntax = syntaxes[2]
+                    Syntax = this.syntaxes[2]
                 },
                 new Paste
                 {
-                    Author = this.users[this.randomProvider.GetRandomInt(0, (users.Count - 1))],
+                    Author = this.users[this.randomProvider.GetRandomInt(0, this.users.Count - 1)],
                     Title = "jQuery plugin with CoffeeScript",
                     Content = this.pastesData["CoffeeScript"],
                     Description = this.pastesData["description"],
-                    Syntax = syntaxes[5]
+                    Syntax = this.syntaxes[5]
                 },
                 new Paste
                 {
-                    Author = this.users[this.randomProvider.GetRandomInt(0, (users.Count - 1))],
+                    Author = this.users[this.randomProvider.GetRandomInt(0, this.users.Count - 1)],
                     Title = "JavaScript source code example",
                     Content = this.pastesData["JavaScript"],
                     Description = this.pastesData["description"],
-                    Syntax = syntaxes[8]
+                    Syntax = this.syntaxes[8]
                 },
                 new Paste
                 {
-                    Author = this.users[this.randomProvider.GetRandomInt(0, (users.Count - 1))],
+                    Author = this.users[this.randomProvider.GetRandomInt(0, this.users.Count - 1)],
                     Title = "CSS source code example",
                     Content = this.pastesData["CSS"],
                     Description = this.pastesData["description"],
-                    Syntax = syntaxes[3]
+                    Syntax = this.syntaxes[3]
                 }
             };
 
-            foreach (var paste in this.pastes)
+            foreach (Paste paste in this.pastes)
             {
                 context.Pastes.Add(paste);
             }
@@ -169,9 +168,9 @@ namespace CodeHub.Data.Migrations
         private void ReadPastesFromFile()
         {
             string codeBase = Assembly.GetCallingAssembly().CodeBase;
-            UriBuilder uri = new UriBuilder(codeBase);
+            var uri = new UriBuilder(codeBase);
             string path = Uri.UnescapeDataString(uri.Path);
-            var ddlPath = Path.GetDirectoryName(path);
+            string ddlPath = Path.GetDirectoryName(path);
 
             using (var reader = new StreamReader(string.Format("{0}\\SeedData\\CatalanNumber.cs", ddlPath), Encoding.UTF8))
             {
@@ -206,7 +205,7 @@ namespace CodeHub.Data.Migrations
 
         private void SeedUsers(CodeHubDbContext context)
         {
-            SeedAdmins(context);
+            this.SeedAdmins(context);
 
             for (int i = 0; i < 3; i++)
             {
@@ -248,7 +247,7 @@ namespace CodeHub.Data.Migrations
 
         private void SeedSyntaxes(CodeHubDbContext context)
         {
-            syntaxes = new List<Syntax>()
+            this.syntaxes = new List<Syntax>()
             {
                 new Syntax { Name = "C#", SyntaxMode = "text/x-csharp" },
                 new Syntax { Name = "C++", SyntaxMode = "text/x-c++src" },
@@ -262,7 +261,7 @@ namespace CodeHub.Data.Migrations
                 new Syntax { Name = "TypeScript", SyntaxMode = "text/typescript" }
             };
 
-            foreach (var syntax in syntaxes)
+            foreach (Syntax syntax in this.syntaxes)
             {
                 context.Syntaxes.Add(syntax);
             }

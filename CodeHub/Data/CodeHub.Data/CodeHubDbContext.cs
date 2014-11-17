@@ -1,15 +1,15 @@
 ﻿namespace CodeHub.Data
 {
-    using Microsoft.AspNet.Identity.EntityFramework;
-
     using System;
     using System.Data.Entity;
     using System.Linq;
 
-    using CodeHub.Data.Contracts;
     using CodeHub.Data.Common.Models;
+    using CodeHub.Data.Contracts;
     using CodeHub.Data.Migrations;
     using CodeHub.Data.Models;
+
+    using Microsoft.AspNet.Identity.EntityFramework;
 
     public class CodeHubDbContext : IdentityDbContext<User>, ICodeHubDbContext
     {

@@ -6,10 +6,10 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
     
+    using CodeHub.Common;
+
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
-
-    using CodeHub.Common;
 
     public class User : IdentityUser
     {
@@ -38,14 +38,6 @@
         [Range(0, int.MaxValue)]
         [DefaultValue(100)]
         public int Points { get; set; }
-
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
-        {
-            // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
-            var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
-            // Add custom user claims here
-            return userIdentity;
-        }
 
         public virtual ICollection<Paste> Pastes
         {
@@ -84,6 +76,15 @@
             {
                 this.repos = value;
             }
+        }
+
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
+        {
+            // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
+            var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+
+            // Add custom user claims here
+            return userIdentity;
         }
     }
 }

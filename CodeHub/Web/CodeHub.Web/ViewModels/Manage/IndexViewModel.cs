@@ -1,7 +1,8 @@
 ﻿namespace CodeHub.Web.ViewModels.Manage
 {
-    using Microsoft.AspNet.Identity;
     using System.Collections.Generic;
+
+    using Microsoft.AspNet.Identity;
 
     public class IndexViewModel
     {

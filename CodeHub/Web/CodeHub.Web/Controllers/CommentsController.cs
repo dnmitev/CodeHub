@@ -24,11 +24,11 @@
         {
             if (comment != null && this.ModelState.IsValid)
             {
-                Comment dbComment = Mapper.DynamicMap<Comment>(comment);
+                Comment commentToDb = Mapper.DynamicMap<Comment>(comment);
 
-                dbComment.AuthorId = this.CurrentUser.Id;
+                commentToDb.AuthorId = this.CurrentUser.Id;
 
-                this.Data.Comments.Add(dbComment);
+                this.Data.Comments.Add(commentToDb);
                 this.Data.SaveChanges();
 
                 // each user receives points for a comment
@@ -37,13 +37,12 @@
 
                 this.Data.SaveChanges();
 
-                CommentViewModel viewModel = Mapper.Map<CommentViewModel>(dbComment);
+                CommentViewModel viewModel = Mapper.Map<CommentViewModel>(commentToDb);
 
                 return this.PartialView("_CommentPartial", viewModel);
             }
 
             return this.PartialView("_CommentPartial", comment);
-            //throw new HttpException(400, "Invalid comment");
         }
 
         public ActionResult CommentOptions(int id)
@@ -83,15 +82,15 @@
         [ValidateAntiForgeryToken]
         public ActionResult Edit(EditCommentViewModel model, int id)
         {
-            Comment dbComment = this.Data.Comments.GetById(id);
+            Comment commentToDb = this.Data.Comments.GetById(id);
 
             Mapper.CreateMap<EditCommentViewModel, Comment>();
-            Mapper.Map<EditCommentViewModel, Comment>(model, dbComment);
+            Mapper.Map<EditCommentViewModel, Comment>(model, commentToDb);
 
-            this.Data.Comments.Update(dbComment);
+            this.Data.Comments.Update(commentToDb);
             this.Data.SaveChanges();
 
-            return this.RedirectToAction("Details", "Pastes", new { id = dbComment.PasteId });
+            return this.RedirectToAction("Details", "Pastes", new { id = commentToDb.PasteId });
         }
     }
 }

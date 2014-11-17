@@ -1,21 +1,17 @@
-﻿
-namespace CodeHub.Web.Controllers
+﻿namespace CodeHub.Web.Controllers
 {
-    using Kendo.Mvc.UI;
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Web;
-    using System.Web.Mvc;
+
+    using Kendo.Mvc.UI;
 
     public class KendoImageBrowserController : EditorImageBrowserController
     {
-        private const string contentFolderRoot = "~/Content/";
-        private const string prettyName = "Images/";
+        private const string ContentFolderRoot = "~/Content/";
+        private const string PrettyName = "Images/";
 
-        private static readonly string[] foldersToCopy = new[] { "~/Content/shared/" };
-
+        private static readonly string[] FoldersToCopy = new[] { "~/Content/shared/" };
 
         /// <summary>
         /// Gets the base paths from which content will be served.
@@ -24,23 +20,24 @@ namespace CodeHub.Web.Controllers
         {
             get
             {
-                return CreateUserFolder();
+                return this.CreateUserFolder();
             }
         }
 
         private string CreateUserFolder()
         {
-            var virtualPath = Path.Combine(contentFolderRoot, "UserFiles", prettyName);
+            string virtualPath = Path.Combine(ContentFolderRoot, "UserFiles", PrettyName);
 
-            var path = Server.MapPath(virtualPath);
+            string path = this.Server.MapPath(virtualPath);
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
-                foreach (var sourceFolder in foldersToCopy)
+                foreach (string sourceFolder in FoldersToCopy)
                 {
-                    CopyFolder(Server.MapPath(sourceFolder), path);
+                    this.CopyFolder(Server.MapPath(sourceFolder), path);
                 }
             }
+
             return virtualPath;
         }
 
@@ -51,16 +48,16 @@ namespace CodeHub.Web.Controllers
                 Directory.CreateDirectory(destination);
             }
 
-            foreach (var file in Directory.EnumerateFiles(source))
+            foreach (string file in Directory.EnumerateFiles(source))
             {
-                var dest = Path.Combine(destination, Path.GetFileName(file));
+                string dest = Path.Combine(destination, Path.GetFileName(file));
                 System.IO.File.Copy(file, dest);
             }
 
-            foreach (var folder in Directory.EnumerateDirectories(source))
+            foreach (string folder in Directory.EnumerateDirectories(source))
             {
-                var dest = Path.Combine(destination, Path.GetFileName(folder));
-                CopyFolder(folder, dest);
+                string dest = Path.Combine(destination, Path.GetFileName(folder));
+                this.CopyFolder(folder, dest);
             }
         }
     }

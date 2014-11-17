@@ -3,7 +3,6 @@ namespace CodeHub.Web.ViewModels.Account
     using System.ComponentModel.DataAnnotations;
 
     using CodeHub.Web.Infrastructure.Filters;
-    using System.Web;
 
     public class RegisterViewModel
     {

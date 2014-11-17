@@ -1,5 +1,4 @@
-﻿
-namespace CodeHub.Web
+﻿namespace CodeHub.Web
 {
     using System.Reflection;
     using System.Web.Mvc;

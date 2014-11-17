@@ -10,7 +10,7 @@
         {
             var username = value as string;
 
-            return (username != null && this.ValidateSymbolsInUsername(username));
+            return username != null && this.ValidateSymbolsInUsername(username);
         }
 
         private bool ValidateSymbolsInUsername(string username)
@@ -21,7 +21,6 @@
                 {
                     return false;
                 }
-
             }
 
             return true;

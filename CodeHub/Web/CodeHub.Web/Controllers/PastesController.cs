@@ -69,10 +69,10 @@
                                               .FirstOrDefault();
 
             // each time a paste is viewed, its hits should grow up by 1
-            Paste dbPaste = this.Data.Pastes.GetById(idAsGuid);
-            dbPaste.Hits++;
+            Paste pasteToDb = this.Data.Pastes.GetById(idAsGuid);
+            pasteToDb.Hits++;
 
-            this.Data.Pastes.Update(dbPaste);
+            this.Data.Pastes.Update(pasteToDb);
             this.Data.SaveChanges();
 
             // Get paste's comments
@@ -146,12 +146,12 @@
         {
             if (paste != null && this.ModelState.IsValid)
             {
-                var dbPaste = Mapper.DynamicMap<Paste>(paste);
+                var pasteToDb = Mapper.DynamicMap<Paste>(paste);
 
-                dbPaste.AuthorId = this.CurrentUser.Id;
-                dbPaste.Description = this.sanitizer.Sanitize(dbPaste.Description);
+                pasteToDb.AuthorId = this.CurrentUser.Id;
+                pasteToDb.Description = this.sanitizer.Sanitize(pasteToDb.Description);
 
-                this.Data.Pastes.Add(dbPaste);
+                this.Data.Pastes.Add(pasteToDb);
                 this.Data.SaveChanges();
 
                 // Each User receive points for a posted source code

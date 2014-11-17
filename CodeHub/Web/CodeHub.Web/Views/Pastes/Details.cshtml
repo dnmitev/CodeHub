@@ -87,7 +87,11 @@
 
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip()
-            })
+            });
         });
+
+        function clearTextArea(data) {
+            $('textarea#Content').val('');
+        }
     </script>
 }

@@ -4,7 +4,8 @@
     {
         HttpMethod = "POST",
         InsertionMode = InsertionMode.InsertBefore,
-        UpdateTargetId = "comments"
+        UpdateTargetId = "comments",
+        OnSuccess = "clearTextArea"
     }))
 {
 
@@ -13,6 +14,6 @@
         @Html.EditorFor(m => m.Content)
     </div>
     <div class="col-md-4">
-        @Html.Submit(new { @class = "btn btn-primary" })
+        @Html.Submit(new { @id="submit-comment-btn", @class = "btn btn-primary" })
     </div>
 }

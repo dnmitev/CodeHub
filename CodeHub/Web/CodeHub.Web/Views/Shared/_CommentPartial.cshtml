@@ -1,20 +1,22 @@
 ﻿@model CodeHub.Web.ViewModels.Comment.CommentViewModel
-<div class="row">
-    <div class="col-md-2">
-        <p class="text-info">
-            Author: @Model.AuthorName <span class="badge">@Model.AuthorPoints</span>
-        </p>
-        <p class="text-info">
-            @Html.DisplayFor(m => m.CreatedOn)
-        </p>
+<div id="comment-@Model.Id">
+    <div class="row">
+        <div class="col-md-2">
+            <p class="text-info">
+                Author: @Model.AuthorName <span class="badge">@Model.AuthorPoints</span>
+            </p>
+            <p class="text-info">
+                @Html.DisplayFor(m => m.CreatedOn)
+            </p>
+        </div>
+        <div class="col-md-8">
+            <p id="comment-@Model.Id-content" class="text-primary">
+                @Model.Content
+            </p>
+        </div>
+        <div class="col-md-2">
+            @Html.Action("CommentOptions", "Comments", new { id = Model.Id })
+        </div>
     </div>
-    <div class="col-md-8">
-        <p id="comment-@Model.Id-content" class="text-primary">
-            @Model.Content
-        </p>
-    </div>
-    <div class="col-md-2">
-        @Html.Action("CommentOptions", "Comments", new { id = Model.Id })
-    </div>
+    <hr />
 </div>
-<hr />

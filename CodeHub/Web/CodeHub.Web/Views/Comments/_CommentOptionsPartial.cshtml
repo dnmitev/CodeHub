@@ -1,8 +1,21 @@
 ﻿@model int
 
-<a href="/Comments/Edit/@Model" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="left" title="Edit Comment">
+@*<a href="/Comments/Edit/@Model" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="left" title="Edit Comment">
+        <span class="glyphicon glyphicon-edit"></span>
+    </a>*@
+<button id="edit-btn-@Model" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="left" title="Edit Comment">
     <span class="glyphicon glyphicon-edit"></span>
-</a>
-<a href="/comments/delete/@Model" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="right" title="delete comment">
-    <span class="glyphicon glyphicon-remove"></span>
-</a>
+</button>
+@*@(Ajax.ActionLink(" ", "Delete", "Comments", new { commentId = Model }, new AjaxOptions()
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "comment-" + @Model + "-content"
+}, new { @id = "edit-btn-" + Model, @class = "btn btn-sm btn-warning glyphicon glyphicon-edit", @data_toggle = "tooltip", @data_placement = "left", @title = "Edit Comment" }))*@
+@(Ajax.ActionLink(" ", "Delete", "Comments", new { commentId = Model }, new AjaxOptions()
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "comment-" + @Model,
+    Confirm = "Are you sure you want to delete this comment?"
+}, new { @class = "btn btn-sm btn-danger glyphicon glyphicon-remove", @data_toggle = "tooltip", @data_placement = "right", @title = "Delete Comment" }))

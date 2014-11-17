@@ -1,10 +1,10 @@
 ﻿namespace CodeHub.Web.Controllers
 {
+    using System.Linq;
     using System.Web.Mvc;
-
     using AutoMapper;
-    
     using CodeHub.Data.Contracts;
+    using CodeHub.Web.Infrastructure.Filters;
     using CodeHub.Data.Models;
     using CodeHub.Web.ViewModels.Comment;
 
@@ -12,14 +12,12 @@
     {
         private const int DefaultAdditionalPointsPerComment = 5;
 
-        public CommentsController(ICodeHubData data)
-            : base(data)
+        public CommentsController(ICodeHubData data) : base(data)
         {
         }
 
         [HttpPost]
         [Authorize]
-        [ValidateAntiForgeryToken]
         public ActionResult AddComment(AddCommentViewModel comment)
         {
             if (comment != null && this.ModelState.IsValid)
@@ -37,14 +35,20 @@
 
                 this.Data.SaveChanges();
 
-                CommentViewModel viewModel = Mapper.Map<CommentViewModel>(commentToDb);
+                Comment commentFromDb = this.Data.Comments
+                                            .All()
+                                            .OrderByDescending(c => c.CreatedOn)
+                                            .FirstOrDefault();
+
+                CommentViewModel viewModel = Mapper.Map<CommentViewModel>(commentFromDb);
 
                 return this.PartialView("_CommentPartial", viewModel);
             }
 
             return this.PartialView("_CommentPartial", comment);
         }
-
+        
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult CommentOptions(int id)
         {
             if (this.CurrentUser != null)
@@ -59,15 +63,16 @@
             return new EmptyResult();
         }
 
-        [HttpGet]
-        public ActionResult Delete(int id)
+        [HttpPost]
+        [AjaxOnly]
+        public ActionResult Delete(int commentId)
         {
-            Comment commentToDelete = this.Data.Comments.GetById(id);
+            Comment commentToDelete = this.Data.Comments.GetById(commentId);
 
             this.Data.Comments.Delete(commentToDelete);
             this.Data.SaveChanges();
 
-            return this.RedirectToAction("Details", "Pastes", new { id = commentToDelete.PasteId });
+            return Content(string.Empty);
         }
 
         [HttpGet]

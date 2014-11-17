@@ -86,6 +86,9 @@
   <ItemGroup>
     <Compile Include="Caching\ICacheService.cs" />
     <Compile Include="Caching\InMemoryCache.cs" />
+    <Compile Include="Filters\AjaxGetAttribute.cs" />
+    <Compile Include="Filters\AjaxOnlyAttribute.cs" />
+    <Compile Include="Filters\AjaxPostAttribute.cs" />
     <Compile Include="Filters\UserNameAllowedSymbolsAttribute.cs" />
     <Compile Include="Helpers\FormGroupExtensions.cs" />
     <Compile Include="Helpers\HtmlBtnExtensions.cs" />

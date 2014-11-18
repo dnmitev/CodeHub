@@ -39,7 +39,7 @@
         public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<User, UserViewModel>()
-                         .ForMember(m => m.FullName, opt => opt.MapFrom(u => string.Format("{0} {1}", u.FirstName, u.LastName)))
+                         .ForMember(m => m.FullName, opt => opt.MapFrom(u => u.FirstName + " " + u.LastName))
                          .ForMember(m => m.PastesCount, opt => opt.MapFrom(u => u.Pastes.Count))
                          .ForMember(m => m.CommentsMade, opt => opt.MapFrom(u => u.Comments.Count))
                          .ReverseMap();

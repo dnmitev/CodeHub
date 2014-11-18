@@ -53,7 +53,7 @@
             if (model != null && this.ModelState.IsValid)
             {
                 TModel modelToDb = this.GetById<TModel>(id);
-                Mapper.Map<TViewModel, TModel>(model, modelToDb);
+                Mapper.DynamicMap<TViewModel, TModel>(model, modelToDb);
                 this.ChangeEntityStateAndSave(modelToDb, EntityState.Modified);
             }
         }

@@ -5,19 +5,20 @@
 }
 
 <h2>@ViewBag.Title</h2>
-@(Html.ReadAndDeleteGrid<UserViewModel>(ControllerName, m => m.Id, columns =>
-{
-    columns.Bound(u => u.UserName);
-    columns.Bound(u => u.Email);
-    columns.Bound(u => u.FullName);
-    columns.Bound(u => u.PastesCount);
-    columns.Bound(u => u.CommentsMade);
-    columns.Command(
+@(Html.ReadAndDeleteGrid<UserViewModel>
+    (ControllerName, m => m.Id, columns =>
+    {
+        columns.Bound(u => u.UserName);
+        columns.Bound(u => u.Email).ClientTemplate("<a href=\"mailto: #: Email #\"><strong>#:Email #<strong></a>");
+        columns.Bound(u => u.FullName);
+        columns.Bound(u => u.PastesCount);
+        columns.Bound(u => u.CommentsMade);
+        columns.Command(
         command =>
         {
             command.Destroy();
         });
-}))
+    }))
 
 @section scripts{
     @Scripts.Render("~/bundles/jqueryajax")

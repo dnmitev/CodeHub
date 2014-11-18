@@ -50,6 +50,7 @@
         [HttpPost]
         public ActionResult Update([DataSourceRequest]DataSourceRequest request, ViewModel model)
         {
+            model.AuthorName = this.Data.Users.All().FirstOrDefault(u => u.Pastes.Any(p => p.Id == model.Id)).UserName;
             base.Update<Model, ViewModel>(model, model.Id);
             return this.GridOperation(model, request);
         }

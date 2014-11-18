@@ -7,8 +7,8 @@
 <h2>@ViewBag.Title</h2>
 @(Html.FullFeaturedGrid<PasteViewModel>(ControllerName, m => m.Id, columns =>
 {
-    columns.Bound(c => c.Title);
-    columns.Bound(c => c.Author);
+    columns.Bound(c => c.Title).ClientTemplate("<a href=\"/Pastes/Details/#: Id #\"><strong>#: Title #<strong></a>");
+    columns.Bound(c => c.AuthorName).EditorTemplateName("Empty");
     columns.ForeignKey(s => s.SyntaxId, (System.Collections.IEnumerable)ViewData["syntaxes"], "Id", "Name").Title("Syntax");
     columns.Bound(c => c.HasBug);
     columns.Command(
@@ -21,7 +21,7 @@
 {
     model.Id(c => c.Id);
     model.Field(c => c.Title).Editable(true);
-    model.Field(c => c.Author).Editable(false);
+    model.Field(c => c.AuthorName).Editable(false);
     model.Field(c => c.SyntaxId).Editable(true);
 }))
 

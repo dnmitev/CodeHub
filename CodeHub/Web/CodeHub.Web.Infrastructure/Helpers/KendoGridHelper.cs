@@ -37,7 +37,6 @@
                                                  .Model(m => m.Id(modelIdExpression))
                                                  .ServerOperation(true)
                                                  .Events(ev => ev.Error("errorHandler"))
-                                                 .Model(model)
                                                  .Read(read => read.Action("Read", controllerName))
                                                  .Update(update => update.Action("Update", controllerName))
                                                  .Destroy(destroy => destroy.Action("Destroy", controllerName)));

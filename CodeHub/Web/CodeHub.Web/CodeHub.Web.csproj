@@ -1169,11 +1169,10 @@
     <Content Include="Views\Pastes\_UserOptions.cshtml" />
     <Content Include="Views\Pastes\Edit.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\BootstrapTextArea.cshtml" />
-    <Content Include="Views\Shared\_AddCommentPartial.cshtml" />
     <Content Include="Views\Shared\_CommentPartial.cshtml" />
     <Content Include="Views\Comments\_CommentOptionsPartial.cshtml" />
-    <Content Include="Views\Comments\Edit.cshtml" />
     <Content Include="Views\Shared\_AdminMenuPartial.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\_AddCommentPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

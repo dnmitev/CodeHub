@@ -1,11 +1,14 @@
 ﻿namespace CodeHub.Web.Controllers
 {
     using System.Linq;
+    using System.Web;
     using System.Web.Mvc;
+    
     using AutoMapper;
+
     using CodeHub.Data.Contracts;
-    using CodeHub.Web.Infrastructure.Filters;
     using CodeHub.Data.Models;
+    using CodeHub.Web.Infrastructure.Filters;
     using CodeHub.Web.ViewModels.Comment;
 
     public class CommentsController : BaseController
@@ -72,30 +75,33 @@
             this.Data.Comments.Delete(commentToDelete);
             this.Data.SaveChanges();
 
-            return Content(string.Empty);
-        }
-
-        [HttpGet]
-        public ActionResult Edit(int id)
-        {
-            Comment comment = this.Data.Comments.GetById(id);
-            EditCommentViewModel model = Mapper.Map<EditCommentViewModel>(comment);
-            return this.View(model);
+            return this.Content(string.Empty);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit(EditCommentViewModel model, int id)
         {
-            Comment commentToDb = this.Data.Comments.GetById(id);
+            if (model != null && ModelState.IsValid)
+            {
+                Comment commentToDb = this.Data.Comments.GetById(id);
 
-            Mapper.CreateMap<EditCommentViewModel, Comment>();
-            Mapper.Map<EditCommentViewModel, Comment>(model, commentToDb);
+                Mapper.CreateMap<EditCommentViewModel, Comment>();
+                Mapper.Map<EditCommentViewModel, Comment>(model, commentToDb);
 
-            this.Data.Comments.Update(commentToDb);
-            this.Data.SaveChanges();
+                this.Data.Comments.Update(commentToDb);
+                this.Data.SaveChanges();
 
-            return this.RedirectToAction("Details", "Pastes", new { id = commentToDb.PasteId });
+                var modelToReturn = Mapper.Map<EditCommentViewModel>(commentToDb);
+
+                return this.Json(modelToReturn);
+            }
+            
+            var errorList = ModelState.Values
+                                      .SelectMany(m => m.Errors)
+                                      .Select(e => e.ErrorMessage)
+                                      .ToList();
+
+            throw new HttpException();
         }
     }
 }

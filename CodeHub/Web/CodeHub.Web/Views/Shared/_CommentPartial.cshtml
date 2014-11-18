@@ -13,6 +13,8 @@
             <p id="comment-@Model.Id-content" class="text-primary">
                 @Model.Content
             </p>
+            <p id="warning-msg-@Model.Id" class="text-warning">
+            </p>
         </div>
         <div class="col-md-2">
             @Html.Action("CommentOptions", "Comments", new { id = Model.Id })

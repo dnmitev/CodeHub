@@ -52,6 +52,7 @@
 {
     <div class="row">
         @Html.Partial("_AddCommentPartial", new CodeHub.Web.ViewModels.Comment.AddCommentViewModel(Model.Id))
+        <p id="warning-msg" class="text-warning">Comment's Content is required</p>
     </div>
 }
 
@@ -69,29 +70,92 @@
     @Scripts.Render("~/Scripts/codemirror")
     @Scripts.Render("~/bundles/jqueryajax")
     <script type="text/javascript">
-        $(function () {
-            var textEditor = document.getElementById("code");
-            var editor = new CodeMirror.fromTextArea(textEditor, {
-                mode: "@Model.SyntaxMode",
-                lineNumbers: true,
-                matchBrackets: true,
-                theme: "vibrant-ink",
-                showCursorWhenSelecting: true,
-                undoDepth: 100,
-                lineWrapping: true,
-                readOnly: true,
-                autofocus: false,
-            });
-
-            editor.setSize('100%', '100%');
-
-            $(function () {
-                $('[data-toggle="tooltip"]').tooltip()
-            });
+    $(function () {
+        var textEditor = document.getElementById("code");
+        var editor = new CodeMirror.fromTextArea(textEditor, {
+            mode: "@Model.SyntaxMode",
+            lineNumbers: true,
+            matchBrackets: true,
+            theme: "vibrant-ink",
+            showCursorWhenSelecting: true,
+            undoDepth: 100,
+            lineWrapping: true,
+            readOnly: true,
+            autofocus: false,
         });
 
-        function clearTextArea(data) {
-            $('textarea#Content').val('');
+        editor.setSize('100%', '100%');
+
+        $('#warning-msg').hide();
+        $('.comment-edit').hide();
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+    });
+
+    function clearTextArea(data) {
+        $('textarea#Content').val('');
+        $('#warning-msg').hide();
+    }
+
+    function checkRequirements() {
+        var textarea = $('textarea#Content').val();
+        if (textarea == '') {
+            $('#warning-msg').show(600);
         }
+    }
+
+    $('#comments').on('click', 'a.btn-sm.btn-warning', function (ev) {
+        ev.preventDefault();
+
+        var $this = $(this);
+        var commentId = $this.data("selector");
+        var idToReplace = "#comment-" + commentId + "-content";
+        var comment = $(idToReplace);
+
+        $('#comment-edit-default-' + commentId).hide();
+        $('#comment-edit-options-' + commentId).show();
+
+        $('a.btn-sm.btn-default[data-selector=' + commentId + ']').click(function (ev) {
+            ev.preventDefault();
+
+            $('#edittable-textarea-' + commentId).replaceWith(comment);
+            $('#comment-edit-default-' + commentId).show();
+            $('#comment-edit-options-' + commentId).hide();
+        });
+
+        var commentContent = $(idToReplace).text().trim();
+        var textarea = $('<textarea />')
+            .attr({ id: 'edittable-textarea-' + commentId, rows: 3, name: 'Content' })
+            .addClass('form-control')
+            .val(commentContent);
+
+        $(idToReplace).replaceWith(textarea);
+
+        $('a.btn-sm.btn-success[data-selector=' + commentId + ']').click(function (ev) {
+            ev.preventDefault();
+            var content = $('#edittable-textarea-' + commentId).val();
+            $.ajax({
+                url: '/Comments/Edit',
+                type: 'POST',
+                data: {
+                    id: commentId,
+                    content: content,
+                    pasteId: '@Model.Id'
+                        },
+                    success: function (data) {
+                        comment.text(data.Content);
+                        $('#edittable-textarea-' + commentId).replaceWith(comment);
+                        $('#comment-edit-default-' + commentId).show();
+                        $('#comment-edit-options-' + commentId).hide();
+                    },
+                    error: function (request, error) {
+                        $('#warning-msg-' + commentId).text('Content is required!');
+                        $('#warning-msg-' + commentId).fadeOut(6000);
+                    }
+                });
+            });
+        });
     </script>
 }

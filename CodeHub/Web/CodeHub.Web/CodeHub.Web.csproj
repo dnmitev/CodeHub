@@ -230,6 +230,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PastesController.cs" />
     <Compile Include="Controllers\SyntaxesController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
@@ -267,6 +268,7 @@
     <Compile Include="ViewModels\Paste\EditPasteViewModel.cs" />
     <Compile Include="ViewModels\Paste\PasteDetailsViewModel.cs" />
     <Compile Include="ViewModels\Paste\PasteUserOptionsViewModel.cs" />
+    <Compile Include="ViewModels\User\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-fileinput\css\fileinput.css" />
@@ -1174,6 +1176,8 @@
     <Content Include="Views\Comments\_CommentOptionsPartial.cshtml" />
     <Content Include="Views\Shared\_AdminMenuPartial.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\_AddCommentPartial.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\_ManageUserProfilePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

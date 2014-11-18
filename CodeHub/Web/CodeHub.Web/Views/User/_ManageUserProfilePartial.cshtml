@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNet.Identity
+
+@model CodeHub.Web.ViewModels.User.UserViewModel
+
+@if (this.User.Identity.GetUserId() == Model.Id.ToString())
+{
+    <div class="row">
+        <button id="edit-btn" class="btn btn-warning">Edit</button>
+        @Html.ActionLink("Change your password", "ChangePassword", "Manage",null, new { @class="btn btn-warning" })
+    </div>
+    using (Html.BeginForm("Edit", "User", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data", id = "edit-form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.EditorFor(m => m.Id)
+        @Html.FormGroupFor(m => m.FullName)
+        @Html.FormGroupFor(m => m.Email)
+        <div class="form-group">
+            <label for="AvatarImg" class="col-lg-2 control-label">Avatar</label>
+            <div class="col-lg-10">
+                <input id="AvatarImg" name="Avatar" type="file" />
+            </div>
+        </div>
+        @Html.Submit(new { @class = "btn btn-primary" })
+        <button id="cancel-btn" class="btn btn-default">Cancel</button>
+    }
+}

@@ -1,0 +1,53 @@
+﻿@model CodeHub.Web.ViewModels.User.UserViewModel
+@{
+    ViewBag.Title = "User Profile";
+}
+@section styles {
+    @Styles.Render("~/Content/bootstrap-fileinput")
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="well">
+    <div class="row">
+        <div class="col-md-2">
+            <img src="@Model.Avatar" alt="@Model.FullName" class="img-responsive" width="200" />
+        </div>
+        <div class="col-md-4">
+            <h3>@Model.FullName</h3>
+            <ul>
+                <li>@Model.UserName <span class="badge">@Model.Points</span></li>
+                <li><a href="mailto:@Model.Email">@Model.Email</a></li>
+            </ul>      
+        </div>
+        <div class="col-md-6">
+            @Html.Partial("_ManageUserProfilePartial", @Model)
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/bootstrap-fileinput")
+    <script>
+        $('#edit-form').hide();
+        $('#AvatarImg').fileinput({
+            showUpload: false,
+            allowedFileExtensions: ["jpg", "gif", "png"],
+            previewFileType: "image",
+            removeIcon: '<i class="glyphicon glyphicon-trash"></i>',
+            mainClass: "input-group-sm"
+        });
+
+        $('#edit-btn').click(function (ev) {
+            ev.preventDefault();
+            $('#edit-form').show(1000);
+            $('#edit-btn').hide();
+        })
+
+        $('#cancel-btn').click(function (ev) {
+            ev.preventDefault();
+            $('#edit-form').hide(1000);
+            $('#edit-btn').show();
+        })
+    </script>
+}

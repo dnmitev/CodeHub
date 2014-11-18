@@ -6,6 +6,8 @@
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class UserNameAllowedSymbolsAttribute : ValidationAttribute
     {
+        private const string AllowedCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_";
+
         public override bool IsValid(object value)
         {
             var username = value as string;
@@ -17,7 +19,7 @@
         {
             for (int i = 0; i < username.Length; i++)
             {
-                if (!char.IsLetterOrDigit(username[i]) && username[i] != '_')
+                if (!AllowedCharacters.Contains(username[i].ToString()))
                 {
                     return false;
                 }

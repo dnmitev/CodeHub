@@ -30,11 +30,13 @@ namespace CodeHub.Web.ViewModels.Account
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
+        [Required]
         [MinLength(2)]
         [MaxLength(20)]
         [Display(Name = "First name")]
         public string FirstName { get; set; }
 
+        [Required]
         [MinLength(2)]
         [MaxLength(20)]
         [Display(Name = "Last name")]

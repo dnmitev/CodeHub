@@ -10,6 +10,7 @@
     public class AddPasteViewModel : IMapFrom<Paste>
     {
         [Required]
+        [AllowHtml]
         [MinLength(5)]
         [MaxLength(100)]
         public string Title { get; set; }

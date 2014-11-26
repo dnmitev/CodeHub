@@ -149,6 +149,7 @@
                 var pasteToDb = Mapper.DynamicMap<Paste>(paste);
 
                 pasteToDb.AuthorId = this.CurrentUser.Id;
+                pasteToDb.Title = this.sanitizer.Sanitize(pasteToDb.Title);
                 pasteToDb.Description = this.sanitizer.Sanitize(pasteToDb.Description);
 
                 this.Data.Pastes.Add(pasteToDb);

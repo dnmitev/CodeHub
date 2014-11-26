@@ -1178,6 +1178,7 @@
     <Content Include="Views\Shared\EditorTemplates\_AddCommentPartial.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\_ManageUserProfilePartial.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AddPasteViewModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
